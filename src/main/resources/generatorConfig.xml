@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration
+        PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+        "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+
+<generatorConfiguration>
+    <context id="DB2Tables" targetRuntime="MyBatis3">
+        <!--导入分页插件-->
+        <plugin type="org.mybatis.generator.plugins.RowBoundsPlugin"></plugin>
+
+        <jdbcConnection driverClass="com.mysql.cj.jdbc.Driver"
+                        connectionURL="jdbc:mysql://localhost:3306/greendog?useUnicode=true&amp;characterEncoding=utf8&amp;useSSL=true&amp;serverTimezone=GMT"
+                        userId="root"
+                        password="pawn2589">
+        </jdbcConnection>
+
+        <javaTypeResolver>
+            <property name="forceBigDecimals" value="false"/>
+        </javaTypeResolver>
+
+        <javaModelGenerator targetPackage="com.boob.greendog.model" targetProject="src/main/java">
+            <property name="enableSubPackages" value="true"/>
+            <property name="trimStrings" value="true"/>
+        </javaModelGenerator>
+
+        <sqlMapGenerator targetPackage="mapper" targetProject="src/main/resources">
+            <property name="enableSubPackages" value="true"/>
+        </sqlMapGenerator>
+
+        <javaClientGenerator targetPackage="com.boob.greendog.mapper" targetProject="src/main/java" type="XMLMAPPER">
+            <property name="enableSubPackages" value="true"/>
+        </javaClientGenerator>
+
+        <table tableName="pet" domainObjectName="Pet"></table>
+        <table tableName="administrator" domainObjectName="Administrator"></table>
+        <table tableName="apply" domainObjectName="Apply">
+            <columnOverride column="contant" javaType="java.lang.String" jdbcType="VARCHAR"/>
+        </table>
+        <table tableName="bulletin" domainObjectName="Bulletin"></table>
+        <table tableName="customer" domainObjectName="Customer"></table>
+
+    </context>
+</generatorConfiguration>

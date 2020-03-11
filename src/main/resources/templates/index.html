@@ -1,0 +1,61 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragement::headImport"></head>
+<title>Home</title>
+<body class="">
+<div class="page">
+    <div class="page-main">
+        <!--顶部右边-->
+        <div th:replace="fragement::topBarRight"></div>
+        <div th:replace="fragement::topBar(1)"></div>
+        <div class="my-3 my-md-5">
+            <div class="container">
+                <div class="row row-cards">
+                    <div class="col-lg-12">
+                        <div class="card">
+                            <div class="card-header">
+                                <h3 class="card-title">所有宠物</h3>
+                            </div>
+                            <div class="table-responsive">
+                                <table class="table card-table  table-vcenter">
+                                    <thead>
+                                    <tr>
+                                        <th>宠物名</th>
+                                        <th>品种</th>
+                                        <th>主人</th>
+                                        <th>状态</th>
+                                        <th>详细</th>
+                                        <th colspan="2">操作</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr>
+                                        <td>美丽的小黑</td>
+                                        <td>拉布拉多</td>
+                                        <td><a href="#">张哥</a></td>
+                                        <td>待领养</td>
+                                        <td>
+                                            <a href="#">查看</a>
+                                        </td>
+                                        <td class="w-1"><a href="#" class="icon">
+                                            <i class="fe fe-book"></i></a>
+                                        </td>
+                                        </td>
+                                        <td class="w-1"><a href="#" class="icon">
+                                            <i class="fe fe-trash"></i></a>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <footer th:replace="fragement::footer">
+    </footer>
+</div>
+</body>
+</html>

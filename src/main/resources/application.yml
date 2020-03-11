@@ -1,0 +1,23 @@
+server:
+  port: 8080
+
+
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/greendog?useUnicode=true&characterEncoding=utf8&useSSL=true&serverTimezone=GMT
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: root
+    password: pawn2589
+  devtools:
+    restart:
+      enabled: true  #设置开启热部署
+  thymeleaf:
+    cache: false #关闭默认模板引擎缓存
+  mvc:
+    favicon:
+      enabled: false
+
+#mybatis配置
+mybatis:
+  configuration:
+    map-underscore-to-camel-case: true
