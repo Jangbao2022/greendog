@@ -9,7 +9,7 @@
             <div class="row">
                 <div class="col col-login mx-auto">
                     <div class="text-center mb-6">
-                        <img src="/assets/brand/tabler.svg" class="h-6" alt="">
+                        <img src="/demo/brand/tabler.svg" class="h-6" alt="">
                     </div>
                     <form class="card" action="/login" method="post">
                         <div class="card-body p-6">
@@ -17,26 +17,27 @@
                             <div class="form-group">
                                 <label class="form-label">账号</label>
                                 <input type="text" class="form-control" name="account"
-                                       placeholder="账号" required="required">
+                                       placeholder="账号" value="1764791181" required="required">
                             </div>
                             <div class="form-group">
                                 <label class="form-label">密码</label>
-                                <input type="text" class="form-control" name="password"
-                                       placeholder="密码" required="required">
+                                <input type="password" class="form-control" name="password"
+                                       placeholder="密码" value="pawn2589" required="required">
                             </div>
                             <div class="form-group">
                                 <label class="form-label">类型</label>
                                 <input type="radio" th:text="客户" value="1" name="type">
-                                <input type="radio" th:text="客户" value="1" name="type" checked hidden="hidden">
+                                <input type="radio" value="1" name="type" checked hidden="hidden">
                                 <input type="radio" th:text="管理员" value="2" name="type">
                             </div>
+                            <p th:text="${message}"></p>
                             <div class="form-footer">
                                 <button type="submit" class="btn btn-primary btn-block">登录</button>
                             </div>
                         </div>
                     </form>
                     <div class="text-center text-muted">
-                        没有账号? <a href="/register">注册</a>
+                        没有账号? <a href="/page/register">注册</a>
                     </div>
                 </div>
             </div>

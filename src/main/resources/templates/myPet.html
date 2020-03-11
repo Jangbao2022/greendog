@@ -7,14 +7,14 @@
     <div class="page-main">
         <!--顶部右边-->
         <div th:replace="fragement::topBarRight"></div>
-        <div th:replace="fragement::topBar(1)"></div>
+        <div th:replace="fragement::topBar(${session.user.type})"></div>
         <div class="my-3 my-md-5">
             <div class="container">
                 <div class="row row-cards">
                     <div class="col-lg-12">
                         <div class="card">
                             <div class="card-header">
-                                <h3 class="card-title">所有宠物</h3>
+                                <h3 class="card-title">我的宠物</h3>
                             </div>
                             <div class="table-responsive">
                                 <table class="table card-table  table-vcenter">
@@ -22,17 +22,18 @@
                                     <tr>
                                         <th>宠物名</th>
                                         <th>品种</th>
-                                        <th>主人</th>
                                         <th>状态</th>
                                         <th>详细</th>
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    <tr>
-                                        <td>美丽的小黑</td>
-                                        <td>拉布拉多</td>
-                                        <td><a href="#">张哥</a></td>
-                                        <td>待领养</td>
+                                    <tr th:each="pet:${petDto.elements}">
+                                        <td th:text="${pet.name}">美丽的小黑</td>
+                                        <td th:text="${pet.breed}">拉布拉多</td>
+                                        <td th:if="${pet.masterId==null}">
+                                            无
+                                        </td>
+                                        <td th:text="${pet.status}">待领养</td>
                                         <td>
                                             <a href="#">查看</a>
                                         </td>
