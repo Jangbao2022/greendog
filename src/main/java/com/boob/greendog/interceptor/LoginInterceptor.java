@@ -1,4 +1,4 @@
-package com.boob.greendog.intercepter;
+package com.boob.greendog.interceptor;
 
 import com.boob.greendog.exp.User;
 import org.springframework.web.servlet.HandlerInterceptor;
@@ -14,13 +14,18 @@ public class LoginInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         User user = (User) request.getSession().getAttribute("user");
+        boolean flag;
         if (user != null) {
             Cookie[] cookies = request.getCookies();
             for (Cookie cookie : cookies) {
                 //如果存在account cookie
                 if ("account".equals(cookie.getName())) {
                     //检验
-                    return cookie.getValue().equals(user.getAccount());
+                    flag = cookie.getValue().equals(user.getAccount());
+                    if (flag) {
+                        return true;
+                    }
+                    break;
                 }
             }
         }

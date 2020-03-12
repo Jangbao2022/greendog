@@ -20,7 +20,7 @@
         <mybatis.version>2.1.2</mybatis.version>
         <mybatis.generator.version>1.4.0</mybatis.generator.version>
 
-        <datasource.url>jdbc:mysql://localhost:3306/greendog?useUnicode=true&amp;characterEncoding=utf8&amp;useSSL=true&amp;serverTimezone=GMT</datasource.url>
+        <datasource.url>jdbc:mysql://localhost:3306/greendog?useUnicode=true&amp;characterEncoding=utf8&amp;useSSL=true&amp;serverTimezone=GMT%2B8</datasource.url>
         <datasource.driver>com.mysql.cj.jdbc.Driver</datasource.driver>
         <datasource.username>root</datasource.username>
         <datasource.password>pawn2589</datasource.password>

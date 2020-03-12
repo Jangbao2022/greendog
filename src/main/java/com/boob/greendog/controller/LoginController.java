@@ -99,6 +99,16 @@ public class LoginController {
      */
     @RequestMapping("/index")
     public String index() {
-        return "redirect:/pet/pets";
+        return "redirect:/pet/allPets";
+    }
+
+    /**
+     * 去首页
+     *
+     * @return
+     */
+    @RequestMapping("/")
+    public String toIndex() {
+        return "redirect:/pet/allPets";
     }
 }

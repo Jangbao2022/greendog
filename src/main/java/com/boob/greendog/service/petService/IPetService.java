@@ -13,12 +13,46 @@ public interface IPetService {
      *
      * @return
      */
-    public PageDto<Pet> getALLPets(int page, int limit);
+    public PageDto<Pet> getALLPets(String sPage, String sLimit);
 
     /**
      * 获取我的宠物
      *
      * @return
      */
-    public PageDto<Pet> getMyPets(int page, int limit, Long userId);
+    public PageDto<Pet> getMyPets(String sPage, String sLimit, Long userId);
+
+
+    /**
+     * 通过id 获取宠物信息
+     *
+     * @param petId
+     * @return
+     */
+    public Pet getPetById(Long petId);
+
+
+    /**
+     * 更新或插入宠物
+     *
+     * @param pet
+     */
+    public void addOrUpdatePet(Pet pet);
+
+    /**
+     * 检验宠物是否在其他地方有关联
+     *
+     * @param petId
+     * @return
+     */
+    public boolean checkDelete(Long petId);
+
+
+    /**
+     * 删除宠物
+     *
+     * @param petId
+     * @return
+     */
+    public void deletePetById(Long petId);
 }

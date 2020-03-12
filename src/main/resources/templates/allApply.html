@@ -1,0 +1,102 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragement::headImport"></head>
+<title>AllApply</title>
+<body class="">
+<div class="page">
+    <div class="page-main">
+        <!--顶部右边-->
+        <div th:replace="fragement::topBarRight"></div>
+        <div th:replace="fragement::topBar(${session.user.type})"></div>
+        <div class="my-3 my-md-5">
+            <div class="container">
+                <div class="row row-cards">
+                    <div class="col-lg-12">
+                        <div class="card">
+                            <div class="card-header">
+                                <h3 class="card-title">所有申请</h3>
+                            </div>
+                            <div class="table-responsive">
+                                <table class="table card-table  table-vcenter">
+                                    <thead>
+                                    <tr>
+                                        <th>申请人</th>
+                                        <th>宠物名</th>
+                                        <th>宠物品种</th>
+                                        <th>申请类别</th>
+                                        <th>处理状态</th>
+                                        <th>处理结果</th>
+                                        <th>申请时间</th>
+                                        <th>处理时间</th>
+                                        <th colspan="2">处理</th>
+                                        <th>操作</th>
+                                        <!--<th colspan="2">操作</th>-->
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr th:each="applyExp:${pageDto.elements}">
+                                        <td>
+                                            <a th:href="'/user/info/'+${applyExp.customer.id}"
+                                               th:text="${applyExp.customer.name}">张哥</a>
+                                        </td>
+                                        <td>
+                                            <a th:href="'/pet/info/'+${applyExp.pet.id}" th:text="${applyExp.pet.name}"
+                                               href="#">张哥</a>
+                                        </td>
+                                        <th th:text="${applyExp.pet.breed}">宠物品种</th>
+                                        <th th:text="${applyExp.apply.type==1?'领养':'寄养'}">申请类别</th>
+                                        <th th:text="${applyExp.apply.handle==1?'未处理':'已处理'}">处理状态</th>
+                                        <th th:text="${applyExp.apply.reply==1?'同意':'拒绝'}">处理结果</th>
+                                        <th th:text="${#dates.format(applyExp.apply.gmtCreated,'yyyy-MM-dd HH:mm:ss')}">
+                                            申请时间
+                                        </th>
+                                        <th th:text="${#dates.format(applyExp.apply.gmtModified,'yyyy-MM-dd HH:mm:ss')}">
+                                            处理时间
+                                        </th>
+                                        <div th:if="${applyExp.apply.handle==1}">
+                                            <td class="w-1" title="同意">
+                                                <a th:href="'/apply/consent/'+${applyExp.apply.id}" class="icon">
+                                                    <i class="fe fe-check"></i></a>
+                                            </td>
+                                            <td class="w-1" title="拒绝">
+                                                <a th:href="'/apply/reject/'+${applyExp.apply.id}" class="icon">
+                                                    <i class="fe fe-x"></i></a>
+                                            </td>
+                                        </div>
+                                        <div th:if="${applyExp.apply.handle==2}">
+                                            <td colspan="2">已处理</td>
+                                        </div>
+                                        <!--<td class="w-1" title="修改">-->
+                                        <!--<a href="#" class="btn btn-secondary btn-sm">-->
+                                        <!--修改-->
+                                        <!--</a>-->
+                                        <!--</td>-->
+                                        <td class="w-1" title="删除">
+                                            <a th:href="'/apply/delete/'+${applyExp.apply.id}"
+                                               class="btn btn-secondary btn-sm">
+                                                删除
+                                            </a>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                                <nav th:replace="fragement::changePage"></nav>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <footer class="footer">
+        <div class="container">
+            <div class="row align-items-center flex-row-reverse">
+                <div class="col-12 text-center">
+                    Copyright &copy; 2018.Yanbobo All rights reserved.
+                </div>
+            </div>
+        </div>
+    </footer>
+</div>
+</body>
+</html>

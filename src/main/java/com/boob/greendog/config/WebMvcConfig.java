@@ -1,6 +1,7 @@
 package com.boob.greendog.config;
 
-import com.boob.greendog.intercepter.LoginInterceptor;
+import com.boob.greendog.interceptor.CustomerInterceptor;
+import com.boob.greendog.interceptor.LoginInterceptor;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
@@ -19,7 +20,6 @@ public class WebMvcConfig implements WebMvcConfigurer {
     @Override
     public void addViewControllers(ViewControllerRegistry registry) {
 
-
         registry.addViewController("/page/login").setViewName("login");
         registry.addViewController("/page/register").setViewName("register");
     }
@@ -31,21 +31,41 @@ public class WebMvcConfig implements WebMvcConfigurer {
      */
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        ArrayList<String> excludePathPatterns = new ArrayList<>();
+        ArrayList<String> loginExPathList = new ArrayList<>();
         //静态资源
-        excludePathPatterns.add("/assets/**");
-        excludePathPatterns.add("/demo/**");
-        excludePathPatterns.add("/src/**");
-        excludePathPatterns.add("/favicon.ico");
+        loginExPathList.add("/assets/**");
+        loginExPathList.add("/demo/**");
+        loginExPathList.add("/src/**");
+        loginExPathList.add("/favicon.ico");
 
         //登录
-        excludePathPatterns.add("/page/login");
-        excludePathPatterns.add("/login");
-        excludePathPatterns.add("/page/register");
-        excludePathPatterns.add("/register");
+        loginExPathList.add("/page/login");
+        loginExPathList.add("/login");
+        loginExPathList.add("/page/register");
+        loginExPathList.add("/register");
 
         registry.addInterceptor(new LoginInterceptor())
                 .addPathPatterns("/**", "/")
-                .excludePathPatterns(excludePathPatterns);
+                .excludePathPatterns(loginExPathList);
+
+        ArrayList<String> customerPathList = new ArrayList<>();
+
+        //各种删除更新操作
+        customerPathList.add("/apply/delete/**");
+
+        customerPathList.add("/bulletin/delete/**");
+        customerPathList.add("/bulletin/addOrUpdateBulletin");
+
+        customerPathList.add("/pet/delete/**");
+        customerPathList.add("/pet/addOrUpdateBulletin");
+
+        customerPathList.add("/user/**");
+
+        registry.addInterceptor(new CustomerInterceptor())
+                .addPathPatterns(customerPathList)
+                .excludePathPatterns("/user/profile",
+                        "/user/updateMe"
+                );
+
     }
 }

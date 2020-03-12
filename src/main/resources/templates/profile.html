@@ -1,0 +1,123 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragement::headImport"></head>
+<title>User</title>
+<body class="">
+<div class="page">
+    <div class="page-main">
+        <!--顶部右边-->
+        <div th:replace="fragement::topBarRight"></div>
+        <div th:replace="fragement::topBar(${session.user.type})"></div>
+        <div class="my-3 my-md-5">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-4">
+                        <div class="card card-profile">
+                            <div class="card-header"
+                                 style="background-image: url(/demo/photos/eberhard-grossgasteiger-311213-500.jpg);"></div>
+                            <div class="card-body text-center">
+                                <img class="card-profile-img" src="/demo/faces/male/16.jpg">
+                                <h3 class="mb-3" th:text="${session.user.nickname}">Peter Richards</h3>
+                                <p class="mb-4" th:text="'账号:'+${session.user.account}">
+                                    Big belly rude boy, million dollar hustler. Unemployed.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-8">
+                        <form class="card" action="/user/updateMe"
+                              method="post">
+                            <div class="card-header">
+                                <h3 class="card-title">个人信息</h3>
+                            </div>
+                            <div class="card-body">
+                                <h3 class="card-title">编辑信息</h3>
+                                <div class="row">
+                                    <!--<input type="hidden" name="_method" value="put">-->
+                                    <input type="text" name="id" th:value="${session.user.id}" hidden>
+                                    <input type="text" name="type" th:value="${session.user.type}" hidden>
+                                    <div class="col-sm-5 col-md-5">
+                                        <div class="form-group">
+                                            <label class="form-label">姓名</label>
+                                            <input type="text" class="form-control"
+                                                   th:value="${session.user.name}"
+                                                   placeholder="姓名" disabled>
+                                            <input type="text" class="form-control" placeholder=""
+                                                   name="name" th:value="${session.user.name}"
+                                                   hidden>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-5 col-md-5">
+                                        <div class="form-group">
+                                            <label class="form-label">账号</label>
+                                            <input type="text" class="form-control" placeholder=""
+                                                   th:value="${session.user.account}"
+                                                   disabled>
+                                            <input type="text" class="form-control" placeholder=""
+                                                   name="account" th:value="${session.user.account}"
+                                                   hidden>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-5 col-md-5">
+                                        <div class="form-group">
+                                            <label class="form-label">昵称</label>
+                                            <input type="text" class="form-control" placeholder="昵称"
+                                                   name="nickname" th:value="${session.user.nickname}">
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-5 col-md-5">
+                                        <div class="form-group">
+                                            <label class="form-label">密码</label>
+                                            <input type="password" class="form-control" placeholder=""
+                                                   name="password" th:value="${session.user.password}">
+                                        </div>
+                                    </div>
+                                    <div th:if="${customer!=null}" class="col-sm-12 col-md-12">
+                                        <div class="col-sm-3 col-md-3">
+                                            <div class="form-group">
+                                                <label class="form-label">性别</label>
+                                                <input type="radio" name="sex"
+                                                       value="1" th:checked="${customer.sex==1}" th:text="男">
+                                                <input type="radio" name="sex"
+                                                       value="2" th:checked="${customer.sex==2}" th:text="女">
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-3 col-md-3">
+                                            <div class="form-group">
+                                                <label class="form-label">年龄</label>
+                                                <input type="text" class="form-control" name="age"
+                                                       th:value="${customer.age}" placeholder="">
+                                            </div>
+                                        </div>
+
+                                        <div class="col-sm-12 col-md-12">
+                                            <div class="form-group">
+                                                <label class="form-label">地址</label>
+                                                <input type="text" class="form-control" placeholder=""
+                                                       th:value="${customer.address}" name="address">
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-12 col-md-12">
+                                            <div class="form-group">
+                                                <label class="form-label">联系方式</label>
+                                                <input type="number" class="form-control" placeholder=""
+                                                       th:value="${customer.contact}" name="contact">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-footer text-right">
+                                <input type="submit" value="提交" class="btn btn-primary">
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <footer th:replace="fragement::footer">
+    </footer>
+</div>
+</body>
+</html>

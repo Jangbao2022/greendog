@@ -37,13 +37,15 @@
                 <div class="dropdown">
                     <a href="#" class="nav-link pr-0 leading-none" data-toggle="dropdown">
                         <span class="ml-2 d-none d-lg-block">
-                            <span class="text-default" th:text="${session.user.name}">张三</span>
+                            <span class="mt-0 mb-4" th:text="${session.user.nickname}">Introduction</span>
                             <small class="text-muted d-block mt-1"
                                    th:text="${session.user.type==1?'客户':'管理员'}">管理员</small>
+                            <!--<h3 class="mb-3" th:text="${session.user.name}">Peter Richards</h3>-->
                         </span>
+
                     </a>
                     <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
-                        <a class="dropdown-item" href="#">
+                        <a class="dropdown-item" href="/user/profile">
                             <i class="dropdown-icon fe fe-user"></i> 个人信息
                         </a>
                         <a class="dropdown-item" href="/logon">
@@ -80,15 +82,15 @@
             <i class="fe fe-home"></i>所有宠物</a>
     </li>
     <li class="nav-item ">
-        <a href="/pet/pets?term=my" class="nav-link">
+        <a href="/pet/myPets" class="nav-link">
             <i class="fe fe-calendar"></i> 我的宠物</a>
     </li>
     <li class="nav-item">
-        <a href="#" class="nav-link">
-            <i class="fe fe-image"></i>办理申请</a>
+        <a href="/apply/myApplies" class="nav-link">
+            <i class="fe fe-image"></i>我的申请</a>
     </li>
     <li class="nav-item">
-        <a href="#" class="nav-link">
+        <a href="/bulletin/allBulletins" class="nav-link">
             <i class="fe fe-check-square"></i> 网站公告</a>
     </li>
 </ul>
@@ -96,15 +98,19 @@
 <!--管理员顶部栏-->
 <ul th:fragment="adminTopBar" class="nav nav-tabs border-0 flex-column flex-lg-row">
     <li class="nav-item">
-        <a href="/" class="nav-link active">
+        <a href="/index" class="nav-link ">
             <i class="fe fe-home"></i>所有宠物</a>
     </li>
     <li class="nav-item">
-        <a href="#" class="nav-link">
-            <i class="fe fe-image"></i>办理申请</a>
+        <a href="/apply/allApplies" class="nav-link">
+            <i class="fe fe-image"></i>所有申请</a>
+    </li>
+    <li class="nav-item">
+        <a href="/user/allCustomers" class="nav-link">
+            <i class="fe fe-image"></i>所有用户</a>
     </li>
     <li class="nav-item ">
-        <a href="#" class="nav-link">
+        <a href="/bulletin/allBulletins" class="nav-link">
             <i class="fe fe-check-square"></i> 网站公告</a>
     </li>
 </ul>
@@ -119,4 +125,21 @@
         </div>
     </div>
 </footer>
+
+<!--分页-->
+<nav th:fragment="changePage" style="margin-top: 10px;padding-bottom: 40px;">
+    <a th:href="@{${pageDto.pageUrl}(sPage=${pageDto.prePage})}"
+       style="float: left"><span aria-hidden="true">&larr;</span>
+        前一页</a>
+    <a th:href="@{${pageDto.pageUrl}(sPage=${pageDto.afterPage})}"
+       style="float: right">后一页 <span aria-hidden="true">&rarr;</span></a>
+</nav>
+
+<!--警告信息-->
+<div th:fragment="dangerMessage">
+    <div th:if="${message!=null}" class="alert alert-icon alert-danger"
+         role="alert" th:text="${message}">
+        <i class="fe fe-alert-triangle mr-2" aria-hidden="true"></i>
+    </div>
+</div>
 </html>

@@ -9,7 +9,7 @@
         <plugin type="org.mybatis.generator.plugins.RowBoundsPlugin"></plugin>
 
         <jdbcConnection driverClass="com.mysql.cj.jdbc.Driver"
-                        connectionURL="jdbc:mysql://localhost:3306/greendog?useUnicode=true&amp;characterEncoding=utf8&amp;useSSL=true&amp;serverTimezone=GMT"
+                        connectionURL="jdbc:mysql://localhost:3306/greendog?useUnicode=true&amp;characterEncoding=utf8&amp;useSSL=true&amp;serverTimezone=GMT%2B8"
                         userId="root"
                         password="pawn2589">
         </jdbcConnection>
@@ -33,10 +33,10 @@
 
         <table tableName="pet" domainObjectName="Pet"></table>
         <table tableName="administrator" domainObjectName="Administrator"></table>
-        <table tableName="apply" domainObjectName="Apply">
+        <table tableName="apply" domainObjectName="Apply"></table>
+        <table tableName="bulletin" domainObjectName="Bulletin">
             <columnOverride column="contant" javaType="java.lang.String" jdbcType="VARCHAR"/>
         </table>
-        <table tableName="bulletin" domainObjectName="Bulletin"></table>
         <table tableName="customer" domainObjectName="Customer"></table>
 
     </context>

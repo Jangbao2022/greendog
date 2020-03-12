@@ -15,6 +15,8 @@
                         <div class="card">
                             <div class="card-header">
                                 <h3 class="card-title">所有宠物</h3>
+                                <a th:if="${session.user.type==2}" href="/pet/addPetPage" style="margin-left: 88%"
+                                   class="btn btn-primary">添加</a>
                             </div>
                             <div class="table-responsive">
                                 <table class="table card-table  table-vcenter">
@@ -25,12 +27,12 @@
                                         <th>主人</th>
                                         <th>状态</th>
                                         <th>详细</th>
-                                        <th colspan="2">操作</th>
+                                        <th th:if="${session.user.type==2}" colspan="2">操作</th>
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    <tr th:each="pet:${petDto.elements}">
-                                        <td th:text="${pet.name}">美丽的小黑</td>
+                                    <tr th:each="pet:${pageDto.elements}">
+                                        <td th:text="${pet.name}"></td>
                                         <td th:text="${pet.breed}">拉布拉多</td>
                                         <td th:if="${pet.masterId!=null}" th:text="${pet.masterNickname}">
                                             <a href="#">张哥</a>
@@ -40,18 +42,25 @@
                                         </td>
                                         <td th:text="${pet.status}">待领养</td>
                                         <td>
-                                            <a href="#">查看</a>
+                                            <a th:href="'/pet/info/'+${pet.id}">查看</a>
                                         </td>
-                                        <td class="w-1"><a href="#" class="icon">
-                                            <i class="fe fe-book"></i></a>
-                                        </td>
-                                        </td>
-                                        <td class="w-1"><a href="#" class="icon">
-                                            <i class="fe fe-trash"></i></a>
-                                        </td>
+                                        <div th:if="${session.user.type==2}">
+                                            <td class="w-1" title="修改">
+                                                <a th:href="'/pet/info/'+${pet.id}" class="btn btn-secondary btn-sm">
+                                                    修改
+                                                </a>
+                                            </td>
+                                            <td class="w-1" title="删除">
+                                                <a th:href="'/pet/delete/'+${pet.id}" class="btn btn-secondary btn-sm">
+                                                    删除
+                                                </a>
+                                            </td>
+                                        </div>
                                     </tr>
                                     </tbody>
                                 </table>
+                                <div th:replace="fragement::dangerMessage"></div>
+                                <nav th:replace="fragement::changePage"></nav>
                             </div>
                         </div>
                     </div>
