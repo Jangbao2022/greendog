@@ -36,6 +36,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
         loginExPathList.add("/assets/**");
         loginExPathList.add("/demo/**");
         loginExPathList.add("/src/**");
+        loginExPathList.add("/petimage/**");
         loginExPathList.add("/favicon.ico");
 
         //登录

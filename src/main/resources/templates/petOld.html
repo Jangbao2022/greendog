@@ -1,0 +1,89 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragement::headImport"></head>
+<title>Pet</title>
+<body class="">
+<div class="page">
+    <div class="page-main">
+        <!--顶部右边-->
+        <div th:replace="fragement::topBarRight"></div>
+        <div th:replace="fragement::topBar(${session.user.type})"></div>
+        <div class="my-3 my-md-5">
+            <div class="container">
+                <div class="card-header">
+                    <h3 class="card-title">宠物信息</h3>
+                </div>
+                <form class="card" action="/pet/addOrUpdatePet" method="post">
+                    <div class="card-body">
+                        <!--<input type="hidden" name="_method" value="put">-->
+                        <input th:if="${pet!=null}" type="text" name="id" th:value="${pet.id}" hidden>
+                        <div class="form-group ">
+                            <label class="form-label">名字</label>
+                            <input type="text" class="form-control" th:disabled="${session.user.type==1}"
+                                   th:value="${pet!=null?pet.name:''}" name="name"
+                                   placeholder="名字">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">品种</label>
+                            <input type="text" class="form-control" placeholder=""
+                                   th:disabled="${session.user.type==1}"
+                                   th:value="${pet!=null?pet.breed:''}" name="breed">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">主人</label>
+                            <input type="text" class="form-control" placeholder=""
+                                   th:disabled="${session.user.type==1}"
+                                   disabled th:value="${pet!=null?pet.masterNickname:''}">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">年龄</label>
+                            <input type="text" class="form-control" placeholder=""
+                                   th:disabled="${session.user.type==1}"
+                                   name="age" th:value="${pet!=null?pet.age:''}">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">性别</label>
+                            <input type="radio" name="sex"
+                                   value="1" th:checked="${pet!=null?pet.sex==1:''}" th:text="雄"
+                                   th:disabled="${session.user.type==1}">
+                            <input type="radio" name="sex"
+                                   value="2" th:checked="${pet!=null?pet.sex==2:''}" th:text="雌"
+                                   th:disabled="${session.user.type==1}">
+
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">状态</label>
+                            <input type="radio" name="status"
+                                   value="1" th:checked="${pet!=null?pet.status==1:''}" th:text="领养中"
+                                   th:disabled="${session.user.type==1}">
+                            <input type="radio" name="status"
+                                   value="2" th:checked="${pet!=null?pet.status==2:''}" th:text="寄养中"
+                                   th:disabled="${session.user.type==1}">
+                            <input type="radio" name="status"
+                                   value="3" th:checked="${pet!=null?pet.status==3:''}" th:text="无"
+                                   th:disabled="${session.user.type==1}">
+                        </div>
+                    </div>
+                    <!--用户不是管理员并且用户不是主人-->
+                    <div th:if="${session.user.type==1&&pet.masterId!=session.user.id}">
+                        <a th:href="@{/apply/adopt/(customerId=${session.user.id},petId=${pet.id})}"
+                           style="margin-left: 88%;margin-bottom: 10px" class="btn btn-primary">申请领养</a>
+                    </div>
+                    <!--用户不是管理员并且用户是主人-->
+                    <div th:if="${session.user.type==1&&pet.masterId==session.user.id}">
+                        <a th:href="@{/apply/send/(customerId=${session.user.id},petId=${pet.id})}"
+                           style="margin-left: 88%;margin-bottom: 10px" class="btn btn-primary">申请寄养</a>
+                    </div>
+                    <div class="card-footer text-right" th:if="${session.user.type==2}">
+                        <input type="submit" value="提交" class="btn btn-primary">
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<footer th:replace="fragement::footer">
+</footer>
+</div>
+</body>
+</html>

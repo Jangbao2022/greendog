@@ -78,15 +78,26 @@ public class UserController {
     }
 
     /**
+     * 增加用户界面
+     *
+     * @return
+     */
+    @RequestMapping("/addUserPage")
+    public String addUserPage() {
+        return "user";
+    }
+
+
+    /**
      * 更新用户信息
      *
      * @param customer
      * @return
      */
-    @PostMapping("updateCustomer")
-    public String updateCustomer(Customer customer) {
+    @PostMapping("addOrUpdateUser")
+    public String addOrUpdateUser(Customer customer) {
         userService.addOrUpdateCustomer(customer);
-        return "redirect:/user/info/" + customer.getId();
+        return "redirect:/user/allCustomers/";
     }
 
 
@@ -104,6 +115,7 @@ public class UserController {
                                   @RequestParam(name = "sLimit", required = false) String sLimit,
                                   HttpServletRequest request,
                                   Model model) {
+
         PageDto<Customer> allCustomers = userService.getAllCustomers(sPage, sLimit);
         model.addAttribute("pageDto", allCustomers);
         return "allCustomer";

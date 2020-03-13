@@ -55,4 +55,11 @@ public interface IPetService {
      * @return
      */
     public void deletePetById(Long petId);
+
+    /**
+     * 上传宠物图片
+     *
+     * @param picUrl
+     */
+    public void uploadPetPic(Long id, String picUrl);
 }

@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import javax.jws.WebParam;
 import javax.servlet.http.HttpServletRequest;
 import java.io.Serializable;
+import java.net.URL;
 
 @Controller
 @RequestMapping("/pet")
@@ -36,6 +37,7 @@ public class PetController {
     public String getAllPets(@RequestParam(name = "sPage", required = false) String sPage,
                              @RequestParam(name = "sLimit", required = false) String sLimit,
                              Model model) {
+
 
         //所有宠物
         PageDto<Pet> petDto = petService.getALLPets(sPage, sLimit);

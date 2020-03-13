@@ -114,4 +114,12 @@ public class PetServiceImpl implements IPetService {
 
         petMapper.deleteByPrimaryKey(petId);
     }
+
+    @Override
+    public void uploadPetPic(Long id, String picUrl) {
+        Pet pet = new Pet();
+        pet.setId(id);
+        pet.setPicture(picUrl);
+        updatePet(pet);
+    }
 }

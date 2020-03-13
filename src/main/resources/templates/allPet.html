@@ -22,7 +22,8 @@
                                 <table class="table card-table  table-vcenter">
                                     <thead>
                                     <tr>
-                                        <th>宠物名</th>
+
+                                        <th colspan="2">宠物名</th>
                                         <th>品种</th>
                                         <th>主人</th>
                                         <th>状态</th>
@@ -32,15 +33,29 @@
                                     </thead>
                                     <tbody>
                                     <tr th:each="pet:${pageDto.elements}">
+                                        <td class="w-1">
+                                            <span class="avatar" th:if="${pet.picture!=null}"
+                                                  th:style="'background-image: url('+ ${pet.picture}+')'"></span>
+                                            <span class="avatar" th:if="${pet.picture==null}"
+                                                  style="background-image: url('/petimage/default.jpg')"></span>
+                                        </td>
                                         <td th:text="${pet.name}"></td>
                                         <td th:text="${pet.breed}">拉布拉多</td>
-                                        <td th:if="${pet.masterId!=null}" th:text="${pet.masterNickname}">
-                                            <a href="#">张哥</a>
+                                        <td th:if="${pet.masterId!=null}">
+                                            <p th:if="${session.user.type==1}"
+                                               th:text="${pet.masterNickname}">
+                                                张哥</p>
+                                            <a th:if="${session.user.type==2}"
+                                               th:text="${pet.masterNickname}"
+                                               th:href="'/user/info/'+${pet.masterId}">
+                                                张哥</a>
                                         </td>
                                         <td th:if="${pet.masterId==null}">
                                             无
                                         </td>
-                                        <td th:text="${pet.status}">待领养</td>
+                                        <td th:if="${pet.status==1}" th:text="领养中">待领养</td>
+                                        <td th:if="${pet.status==2}" th:text="寄养中">待领养</td>
+                                        <td th:if="${pet.status==3}" th:text="无">待领养</td>
                                         <td>
                                             <a th:href="'/pet/info/'+${pet.id}">查看</a>
                                         </td>

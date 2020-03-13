@@ -17,66 +17,72 @@
                                  style="background-image: url(/demo/photos/eberhard-grossgasteiger-311213-500.jpg);"></div>
                             <div class="card-body text-center">
                                 <img class="card-profile-img" src="/demo/faces/male/16.jpg">
-                                <h3 class="mb-3" th:text="${customer.nickname}">Peter Richards</h3>
-                                <p class="mb-4" th:text="'账号:'+${customer.account}">
+                                <h3 class="mb-3" th:text="${customer!=null?customer.nickname:''}">Peter Richards</h3>
+                                <p class="mb-4" th:text="'账号:'+${customer!=null?customer.account:''}">
                                     Big belly rude boy, million dollar hustler. Unemployed.
                                 </p>
                             </div>
                         </div>
                     </div>
                     <div class="col-lg-8">
-                        <form class="card" action="/user/updateUser" method="post">
+                        <form class="card" action="/user/addOrUpdateUser" method="post">
                             <div class="card-header">
                                 <h3 class="card-title">个人信息</h3>
                             </div>
                             <div class="card-body">
-                                <h3 class="card-title">编辑信息</h3>
+                                <h3 class="card-title" th:text="${customer!=null?'更新':'添加'+'用户'}">编辑信息</h3>
                                 <div class="row">
                                     <!--<input type="hidden" name="_method" value="put">-->
-                                    <input type="text" name="id" th:value="${customer.id}" hidden>
+                                    <input type="text" th:if="${customer!=null}" name="id"
+                                           th:value="${customer.id}" hidden>
                                     <div class="col-sm-5 col-md-5">
                                         <div class="form-group">
                                             <label class="form-label">姓名</label>
                                             <input type="text" class="form-control"
-                                                   th:value="${customer.name}" name="name"
-                                                   placeholder="姓名">
+                                                   th:value="${customer!=null?customer.name:''}" name="name"
+                                                   required placeholder="姓名">
                                         </div>
                                     </div>
                                     <div class="col-sm-5 col-md-5">
                                         <div class="form-group">
                                             <label class="form-label">账号</label>
                                             <input type="text" class="form-control" placeholder=""
-                                                   th:value="${customer.account}" name="account">
+                                                   th:value="${customer!=null?customer.account:''}"
+                                                   required name="account" minlength="6" maxlength="20">
                                         </div>
                                     </div>
                                     <div class="col-sm-5 col-md-5">
                                         <div class="form-group">
                                             <label class="form-label">昵称</label>
                                             <input type="text" class="form-control" placeholder="昵称"
-                                                   name="nickname" th:value="${customer.nickname}">
+                                                   name="nickname" required
+                                                   th:value="${customer!=null?customer.nickname:''}">
                                         </div>
                                     </div>
                                     <div class="col-sm-5 col-md-5">
                                         <div class="form-group">
                                             <label class="form-label">密码</label>
                                             <input type="password" class="form-control" placeholder=""
-                                                   name="password" th:value="${customer.password}">
+                                                   name="password" required minlength="6" maxlength="20"
+                                                   th:value="${customer!=null?customer.password:''}">
                                         </div>
                                     </div>
                                     <div class="col-sm-3 col-md-3">
                                         <div class="form-group">
                                             <label class="form-label">性别</label>
                                             <input type="radio" name="sex"
-                                                   value="1" th:checked="${customer.sex==1}" th:text="男">
+                                                   value="1" th:checked="${customer!=null&&customer.sex==1}"
+                                                   th:text="男">
                                             <input type="radio" name="sex"
-                                                   value="2" th:checked="${customer.sex==2}" th:text="女">
+                                                   value="2" th:checked="${customer!=null&&customer.sex==2}"
+                                                   th:text="女">
                                         </div>
                                     </div>
                                     <div class="col-sm-3 col-md-3">
                                         <div class="form-group">
                                             <label class="form-label">年龄</label>
                                             <input type="text" class="form-control" name="age"
-                                                   th:value="${customer.age}" placeholder="">
+                                                   th:value="${customer!=null?customer.age:''}" placeholder="">
                                         </div>
                                     </div>
 
@@ -84,14 +90,14 @@
                                         <div class="form-group">
                                             <label class="form-label">地址</label>
                                             <input type="text" class="form-control" name="address"
-                                                   th:value="${customer.address}" placeholder="">
+                                                   th:value="${customer!=null?customer.address:''}" placeholder="">
                                         </div>
                                     </div>
                                     <div class="col-sm-12 col-md-12">
                                         <div class="form-group">
                                             <label class="form-label">联系方式</label>
                                             <input type="number" class="form-control" placeholder=""
-                                                   th:value="${customer.contact}" name="contact">
+                                                   th:value="${customer!=null?customer.contact:''}" name="contact">
                                         </div>
                                     </div>
                                 </div>

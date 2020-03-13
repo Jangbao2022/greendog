@@ -33,6 +33,7 @@ public class LoginController {
                         HttpServletRequest request,
                         HttpServletResponse response,
                         Model model) {
+
         User checkUser = userService.checkUser(user);
         if (checkUser != null) {
             //存入session
