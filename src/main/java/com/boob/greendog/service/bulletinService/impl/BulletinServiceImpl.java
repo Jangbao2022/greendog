@@ -41,6 +41,20 @@ public class BulletinServiceImpl implements IBulletinService {
         //按时间倒序
         Collections.sort(bulletins, (b1, b2) -> (int) (b2.getGmtModified().getTime() - b1.getGmtModified().getTime()));
 
+        List<BulletinExp> bulletinExps = pottingBulletinList(bulletins);
+
+        bulletinDto.setElements(bulletinExps);
+        return bulletinDto;
+    }
+
+
+    /**
+     * 增强bulletinList为BulletinExpList
+     *
+     * @param bulletins
+     * @return
+     */
+    private List<BulletinExp> pottingBulletinList(List<Bulletin> bulletins) {
         List<BulletinExp> bulletinExps = new ArrayList<>();
         //封装bulletin
         for (Bulletin bulletin : bulletins) {
@@ -48,9 +62,7 @@ public class BulletinServiceImpl implements IBulletinService {
             BulletinExp bulletinExp = pottingBulletin(bulletin);
             bulletinExps.add(bulletinExp);
         }
-
-        bulletinDto.setElements(bulletinExps);
-        return bulletinDto;
+        return bulletinExps;
     }
 
     @Override

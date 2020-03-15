@@ -12,9 +12,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
-import java.io.InputStream;
-
 @Controller
 @RequestMapping("/upload")
 public class FileUploadController {
@@ -45,21 +42,11 @@ public class FileUploadController {
     public String uploadPetPic(@RequestParam("id") Long id,
                                @RequestParam("image") MultipartFile file) {
 
-        try {
-            InputStream inputStream = file.getInputStream();
+        String fileUrl = FileUploadUtil.upLoadFileByMultipartFile(file, "petimage");
 
-            //获取文件后缀
-            String[] split = file.getResource().getFilename().split("\\.");
-            String suffix = split[1];
+        //更新宠物信息
+        petService.uploadPetPic(id, fileUrl);
 
-            String fileUrl = FileUploadUtil.upLoadFile(inputStream, "petimage", suffix);
-
-            //更新宠物信息
-            petService.uploadPetPic(id, fileUrl);
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return "redirect:/petPicPage/" + id;
+        return "redirect:/upload/petPicPage/" + id;
     }
 }

@@ -2,9 +2,10 @@ package com.boob.greendog.mapper;
 
 import com.boob.greendog.model.Apply;
 import com.boob.greendog.model.ApplyExample;
-import java.util.List;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.session.RowBounds;
+
+import java.util.List;
 
 public interface ApplyMapper {
     /**

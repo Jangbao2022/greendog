@@ -66,21 +66,42 @@ public class ApplyServiceImpl implements IApplyService {
         applyPageDto.init((int) total, sPage, sLimit);
 
         List<Apply> applies = applyMapper.selectByExampleWithRowbounds(example, new RowBounds(applyPageDto.getOffset(), applyPageDto.getLimit()));
-        List<ApplyExp> applyExpList = new ArrayList<>();
+        List<ApplyExp> applyExpList = pottingApplyList(applies);
 
-        //封装apply
-        for (Apply apply : applies) {
-            ApplyExp applyExp = new ApplyExp();
-            Customer customer = customerMapper.selectByPrimaryKey(apply.getCustomerId());
-            Pet pet = petMapper.selectByPrimaryKey(apply.getPetId());
-            applyExp.setApply(apply);
-            applyExp.setCustomer(customer);
-            applyExp.setPet(pet);
-
-            applyExpList.add(applyExp);
-        }
         applyPageDto.setElements(applyExpList);
         return applyPageDto;
+    }
+
+    /**
+     * 封装applyList
+     *
+     * @param applies
+     * @return
+     */
+    private List<ApplyExp> pottingApplyList(List<Apply> applies) {
+        List<ApplyExp> applyExpList = new ArrayList<>();
+        //封装apply
+        for (Apply apply : applies) {
+            ApplyExp applyExp = pottingApply(apply);
+            applyExpList.add(applyExp);
+        }
+        return applyExpList;
+    }
+
+    /**
+     * 封装apply
+     *
+     * @param apply
+     * @return
+     */
+    private ApplyExp pottingApply(Apply apply) {
+        ApplyExp applyExp = new ApplyExp();
+        Customer customer = customerMapper.selectByPrimaryKey(apply.getCustomerId());
+        Pet pet = petMapper.selectByPrimaryKey(apply.getPetId());
+        applyExp.setApply(apply);
+        applyExp.setCustomer(customer);
+        applyExp.setPet(pet);
+        return applyExp;
     }
 
     @Override

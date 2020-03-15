@@ -68,8 +68,7 @@ public class UserServiceImpl implements IUserService {
             BeanUtils.copyProperties(customer, user);
 
             //修改日期更新
-            customer.setGmtModified(new Date());
-            customerMapper.updateByPrimaryKeySelective(customer);
+            updateCustomer(customer);
 
             return user;
         }
@@ -96,8 +95,7 @@ public class UserServiceImpl implements IUserService {
             BeanUtils.copyProperties(admin, user);
 
             //修改日期更新
-            admin.setGmtModified(new Date());
-            administratorMapper.updateByPrimaryKeySelective(admin);
+            updateAdmin(admin);
 
             return user;
         }
@@ -179,6 +177,12 @@ public class UserServiceImpl implements IUserService {
 
     }
 
+    /**
+     * 更新个人信息
+     *
+     * @param user
+     * @return
+     */
     public boolean updateMe(User user) {
         if (user.getType().equals(UserTypeEnum.CUSTOMER.getType())) {
             Customer customer = new Customer();
@@ -209,25 +213,36 @@ public class UserServiceImpl implements IUserService {
 
     @Override
     public boolean checkDelete(Long customerId) {
+
+        return checkLinkPet(customerId) && checkLinkApply(customerId);
+    }
+
+    /**
+     * 检查和宠物的关联
+     *
+     * @param customerId
+     * @return
+     */
+    private boolean checkLinkPet(Long customerId) {
         //判断宠物的关联
         PetExample petExample = new PetExample();
         petExample.createCriteria()
                 .andMasterIdEqualTo(customerId);
-        long petCustomers = petMapper.countByExample(petExample);
-        if (petCustomers != 0) {
-            return false;
-        }
+        return petMapper.countByExample(petExample) == 0;
+    }
 
+    /**
+     * 检查和申请的关联
+     *
+     * @param customerId
+     * @return
+     */
+    private boolean checkLinkApply(Long customerId) {
         //判断申请中的关联
         ApplyExample applyExample = new ApplyExample();
         applyExample.createCriteria()
                 .andCustomerIdEqualTo(customerId);
-        long applyCustomers = applyMapper.countByExample(applyExample);
-        if (applyCustomers != 0) {
-            return false;
-        }
-
-        return true;
+        return applyMapper.countByExample(applyExample) == 0;
     }
 
     @Override
