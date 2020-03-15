@@ -24,7 +24,7 @@ public interface IBulletinService {
      *
      * @param bulletinId
      */
-    public void deleteCustomerById(Long bulletinId);
+    public void deleteBulletinById(Long bulletinId);
 
     /**
      * 根据Id获取bulletin

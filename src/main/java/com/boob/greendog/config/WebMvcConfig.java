@@ -61,12 +61,19 @@ public class WebMvcConfig implements WebMvcConfigurer {
         customerPathList.add("/pet/addOrUpdateBulletin");
 
         customerPathList.add("/user/**");
+        customerPathList.add("/staff/**");
+        ArrayList<String> excludePathPatterns = new ArrayList<>();
+
+        excludePathPatterns.add("/user/profile");
+        excludePathPatterns.add("/user/updateMe");
+
+        excludePathPatterns.add("/staff/allStaffs");
+        excludePathPatterns.add("/staff/myStaffs");
+        excludePathPatterns.add("/staff/info/**");
 
         registry.addInterceptor(new CustomerInterceptor())
                 .addPathPatterns(customerPathList)
-                .excludePathPatterns("/user/profile",
-                        "/user/updateMe"
-                );
+                .excludePathPatterns(excludePathPatterns);
 
     }
 }

@@ -12,6 +12,10 @@ public enum PageUrlEnum {
 
     ALL_CUSTOMERS("/user/allCustomers"),
 
+    ALL_STAFFS("/staff/allStaffs"),
+    MY_STAFFS("/staff/myStaffs"),
+
+
     ;
 
     private String url;

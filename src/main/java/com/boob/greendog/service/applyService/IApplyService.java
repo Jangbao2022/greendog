@@ -54,6 +54,13 @@ public interface IApplyService {
      */
     void send(Apply apply);
 
+    /**
+     * 申请预约
+     *
+     * @param apply
+     */
+    void order(Apply apply);
+
 
     /**
      * 删除请求

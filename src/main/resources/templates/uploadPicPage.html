@@ -14,7 +14,12 @@
                     <div class="col-sm-4 col-lg-4">
                         <div class="card p-3">
                             <a href="javascript:void(0)" class="mb-2">
-                                <img id="img" th:src="${pet.picture!=null}?${pet.picture}:'/petimage/default.jpg'"
+                                <img th:if="${pet!=null}" id="img"
+                                     th:src="${pet.picture!=null}?${pet.picture}:'/petimage/default.jpg'"
+                                     alt="Photo by Nathan Guerrero" style="height: 300px"
+                                     class="rounded">
+                                <img th:if="${staffExp!=null}" id="img"
+                                     th:src="${staffExp.staff.pic!=null}?${staffExp.staff.pic}:'/staffimage/1.jpg'"
                                      alt="Photo by Nathan Guerrero" style="height: 300px"
                                      class="rounded">
                             </a>
@@ -26,10 +31,28 @@
                         </div>
                     </div>
                     <div class="col-sm-8 col-lg-8">
-                        <form class="card" action="/upload/petPic" method="post" enctype="multipart/form-data">
+                        <form class="card" th:action="${pet!=null}?'/upload/petPic':'/upload/staffPic'" method="post"
+                              enctype="multipart/form-data">
                             <div class="card-body">
                                 <div class="form-group">
-                                    <input type="text" name="id" th:value="${pet.id}" hidden>
+
+                                    <label class="form-label">名字</label>
+                                    <div th:if="${pet!=null}">
+                                        <p th:text="${pet.name}"></p>
+                                        <input type="text" name="id"
+                                               th:value="${pet.id}" hidden>
+                                        <input type="text" class="form-control" disabled
+                                               placeholder="名字" th:value="${pet.name}">
+                                    </div>
+                                    <div th:if="${staffExp!=null}">
+                                        <input type="text" name="id"
+                                               th:value="${staffExp.staff.id}" hidden>
+                                        <input type="text" class="form-control" disabled
+                                               placeholder="名字" th:value="${staffExp.staff.name}">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+
                                     <label class="form-label">图片</label>
                                     <input type="file" name="image" onchange="showImg(this)"
                                            accept="image/gif,image/jpeg,image/jpg,image/png,image/svg">

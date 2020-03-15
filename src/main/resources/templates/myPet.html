@@ -16,34 +16,79 @@
                             <div class="card-header">
                                 <h3 class="card-title">我的宠物</h3>
                             </div>
-                            <div class="table-responsive">
-                                <table class="table card-table  table-vcenter">
-                                    <thead>
-                                    <tr>
-                                        <th>宠物名</th>
-                                        <th>品种</th>
-                                        <th>状态</th>
-                                        <th>详细</th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                    <tr th:each="pet:${pageDto.elements}">
-                                        <td th:text="${pet.name}">美丽的小黑</td>
-                                        <td th:text="${pet.breed}">拉布拉多</td>
-                                        <td th:if="${pet.masterId==null}">
-                                            无
-                                        </td>
-                                        <td th:if="${pet.status==1}" th:text="领养中">待领养</td>
-                                        <td th:if="${pet.status==2}" th:text="寄养中">待领养</td>
-                                        <td th:if="${pet.status==3}" th:text="无">待领养</td>
-                                        <td>
-                                            <a th:href="'/pet/info/'+${pet.id}">查看</a>
-                                        </td>
-                                    </tr>
-                                    </tbody>
-                                </table>
-                                <nav th:replace="fragement::changePage"></nav>
+                            <div class="row row-cards">
+                                <div class="col-sm-6 col-lg-3" th:each="pet:${pageDto.elements}">
+                                    <div class="card p-3">
+                                        <a href="javascript:void(0)" class="mb-3">
+                                            <img th:src="${pet.picture!=null}?${pet.picture}:'/petimage/default.jpg'"
+                                                 alt="Photo by Nathan Guerrero" width="250px" height="165px"
+                                                 class="rounded">
+                                        </a>
+                                        <div class="d-flex align-items-center px-2">
+                                            <div>
+                                                <div><a th:href="'/pet/info/'+${pet.id}" th:text="${pet.name}"></a>
+                                                </div>
+                                                <small class="d-block text-muted">
+                                                    <div th:if="${pet.masterId!=null}">
+                                                        <p th:if="${session.user.type==1}"
+                                                           th:text="${pet.masterNickname}">
+                                                            张哥</p>
+                                                        <a th:if="${session.user.type==2}"
+                                                           th:text="${pet.masterNickname}"
+                                                           th:href="'/user/info/'+${pet.masterId}">
+                                                            张哥</a>
+                                                    </div>
+                                                </small>
+                                            </div>
+                                            <div class="ml-auto text-muted" th:if="${session.user.type==1}">
+                                                <a href="javascript:void(0)" class="icon"><i class="fe fe-eye mr-1"></i>
+                                                    112</a>
+                                                <a href="javascript:void(0)" class="icon d-none d-md-inline-block ml-3"><i
+                                                        class="fe fe-heart mr-1"></i> 42</a>
+                                            </div>
+                                            <div class="ml-auto text-muted" th:if="${session.user.type==2}">
+                                                <a th:href="'/pet/info/'+${pet.id}" class="btn btn-secondary btn-sm">
+                                                    修改
+                                                </a>
+                                                <a th:href="'/pet/delete/'+${pet.id}"
+                                                   class="btn btn-secondary btn-sm">
+                                                    删除
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
                             </div>
+                            <nav th:replace="fragement::changePage"></nav>
+                            <!--<div class="table-responsive">-->
+                            <!--<table class="table card-table  table-vcenter">-->
+                            <!--<thead>-->
+                            <!--<tr>-->
+                            <!--<th>宠物名</th>-->
+                            <!--<th>品种</th>-->
+                            <!--<th>状态</th>-->
+                            <!--<th>详细</th>-->
+                            <!--</tr>-->
+                            <!--</thead>-->
+                            <!--<tbody>-->
+                            <!--<tr th:each="pet:${pageDto.elements}">-->
+                            <!--<td th:text="${pet.name}">美丽的小黑</td>-->
+                            <!--<td th:text="${pet.breed}">拉布拉多</td>-->
+                            <!--<td th:if="${pet.masterId==null}">-->
+                            <!--无-->
+                            <!--</td>-->
+                            <!--<td th:if="${pet.status==1}" th:text="领养中">待领养</td>-->
+                            <!--<td th:if="${pet.status==2}" th:text="寄养中">待领养</td>-->
+                            <!--<td th:if="${pet.status==3}" th:text="无">待领养</td>-->
+                            <!--<td>-->
+                            <!--<a th:href="'/pet/info/'+${pet.id}">查看</a>-->
+                            <!--</td>-->
+                            <!--</tr>-->
+                            <!--</tbody>-->
+                            <!--</table>-->
+                            <!--</div>-->
+
                         </div>
                     </div>
                 </div>

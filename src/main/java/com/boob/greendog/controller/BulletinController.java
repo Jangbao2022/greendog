@@ -47,7 +47,7 @@ public class BulletinController {
      */
     @RequestMapping("delete/{id}")
     public String deleteCustomer(@PathVariable("id") Long id, Model model) {
-        bulletinService.deleteCustomerById(id);
+        bulletinService.deleteBulletinById(id);
         return "redirect:/bulletin/allBulletins";
     }
 

@@ -105,7 +105,8 @@ public class PetServiceImpl implements IPetService {
     public boolean checkDelete(Long petId) {
         ApplyExample example = new ApplyExample();
         example.createCriteria()
-                .andPetIdEqualTo(petId);
+                .andTypeBetween(1, 2) //领养或寄养
+                .andReceiverIdEqualTo(petId);
         return applyMapper.countByExample(example) == 0;
     }
 
@@ -116,7 +117,7 @@ public class PetServiceImpl implements IPetService {
     }
 
     @Override
-    public void uploadPetPic(Long id, String picUrl) {
+    public void uploadPic(Long id, String picUrl) {
         Pet pet = new Pet();
         pet.setId(id);
         pet.setPicture(picUrl);

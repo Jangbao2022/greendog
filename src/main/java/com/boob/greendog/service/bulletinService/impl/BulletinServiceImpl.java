@@ -66,7 +66,7 @@ public class BulletinServiceImpl implements IBulletinService {
     }
 
     @Override
-    public void deleteCustomerById(Long bulletinId) {
+    public void deleteBulletinById(Long bulletinId) {
         bulletinMapper.deleteByPrimaryKey(bulletinId);
     }
 

@@ -55,7 +55,6 @@ public class ApplyController {
                                HttpServletRequest request,
                                Model model) {
 
-
         User user = (User) request.getSession().getAttribute("user");
         PageDto<ApplyExp> applyDto = applyService.getMyApplies(sPage, sLimit, user.getId());
         model.addAttribute("pageDto", applyDto);
@@ -107,6 +106,17 @@ public class ApplyController {
     @RequestMapping("send")
     public String send(Apply apply) {
         applyService.send(apply);
+        return "redirect:/index";
+    }
+
+    /**
+     * 申请预约
+     *
+     * @return
+     */
+    @RequestMapping("order")
+    public String order(Apply apply) {
+        applyService.order(apply);
         return "redirect:/index";
     }
 

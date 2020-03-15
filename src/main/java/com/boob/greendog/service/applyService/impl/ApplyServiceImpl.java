@@ -6,10 +6,8 @@ import com.boob.greendog.exp.ApplyExp;
 import com.boob.greendog.mapper.ApplyMapper;
 import com.boob.greendog.mapper.CustomerMapper;
 import com.boob.greendog.mapper.PetMapper;
-import com.boob.greendog.model.Apply;
-import com.boob.greendog.model.ApplyExample;
-import com.boob.greendog.model.Customer;
-import com.boob.greendog.model.Pet;
+import com.boob.greendog.mapper.StaffMapper;
+import com.boob.greendog.model.*;
 import com.boob.greendog.service.applyService.IApplyService;
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,6 +31,9 @@ public class ApplyServiceImpl implements IApplyService {
 
     @Autowired
     private PetMapper petMapper;
+
+    @Autowired
+    private StaffMapper staffMapper;
 
     @Override
     public PageDto<ApplyExp> getMyApplies(String sPage, String sLimit, Long userId) {
@@ -97,10 +98,18 @@ public class ApplyServiceImpl implements IApplyService {
     private ApplyExp pottingApply(Apply apply) {
         ApplyExp applyExp = new ApplyExp();
         Customer customer = customerMapper.selectByPrimaryKey(apply.getCustomerId());
-        Pet pet = petMapper.selectByPrimaryKey(apply.getPetId());
+        if (apply.getType() == 3) {
+            //如果申请的工作人员
+            Staff staff = staffMapper.selectByPrimaryKey(apply.getReceiverId());
+            applyExp.setStaff(staff);
+        } else {
+            //申请的宠物
+            Pet pet = petMapper.selectByPrimaryKey(apply.getReceiverId());
+            applyExp.setPet(pet);
+        }
         applyExp.setApply(apply);
         applyExp.setCustomer(customer);
-        applyExp.setPet(pet);
+
         return applyExp;
     }
 
@@ -111,25 +120,43 @@ public class ApplyServiceImpl implements IApplyService {
 
         //找到申请人
         Customer customer = customerMapper.selectByPrimaryKey(apply.getCustomerId());
-        //找到申请的宠物
-        Pet pet = petMapper.selectByPrimaryKey(apply.getPetId());
 
-        if (apply.getType().equals(1)) {
-            //同意领养
-            consentAdopt(customer, pet);
+        if (apply.getType() == 3) {
+
+            Staff staff = staffMapper.selectByPrimaryKey(apply.getReceiverId());
+            //同意预约
+            consentOrder(customer, staff);
+            staff.setGmtModified(new Date());
+            staffMapper.updateByPrimaryKeySelective(staff);
+
         } else {
-            //同意寄养
-            consentSend(pet);
-        }
+            //找到申请的宠物
+            Pet pet = petMapper.selectByPrimaryKey(apply.getReceiverId());
 
-        //更新宠物信息
-        pet.setGmtModified(new Date());
-        petMapper.updateByPrimaryKeySelective(pet);
+            if (apply.getType().equals(1)) {
+                //同意领养
+                consentAdopt(customer, pet);
+            } else {
+                //同意寄养
+                consentSend(pet);
+            }
+            //更新宠物信息
+            pet.setGmtModified(new Date());
+            petMapper.updateByPrimaryKeySelective(pet);
+        }
 
         //同意请求
         apply.setReply(1);
         //更新请求
         updateApply(apply);
+    }
+
+    /**
+     * 同意预约
+     */
+    private void consentOrder(Customer customer, Staff staff) {
+        //更新被申请人信息
+        staff.setCustomerId(customer.getId());
     }
 
     /**
@@ -183,6 +210,13 @@ public class ApplyServiceImpl implements IApplyService {
     public void send(Apply apply) {
         //设置类型为寄养
         apply.setType(2);
+        addApply(apply);
+    }
+
+    @Override
+    public void order(Apply apply) {
+        //设置类型为预约
+        apply.setType(3);
         addApply(apply);
     }
 

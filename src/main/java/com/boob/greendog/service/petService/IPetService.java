@@ -61,5 +61,5 @@ public interface IPetService {
      *
      * @param picUrl
      */
-    public void uploadPetPic(Long id, String picUrl);
+    public void uploadPic(Long id, String picUrl);
 }

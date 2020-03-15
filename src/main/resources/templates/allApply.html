@@ -21,8 +21,7 @@
                                     <thead>
                                     <tr>
                                         <th>申请人</th>
-                                        <th>宠物名</th>
-                                        <th>宠物品种</th>
+                                        <th>被申请者</th>
                                         <th>申请类别</th>
                                         <th>处理状态</th>
                                         <th>处理结果</th>
@@ -39,12 +38,20 @@
                                             <a th:href="'/user/info/'+${applyExp.customer.id}"
                                                th:text="${applyExp.customer.name}">张哥</a>
                                         </td>
-                                        <td>
+                                        <td th:if="${applyExp.apply.type!=3}">
+                                            <!--申请宠物-->
                                             <a th:href="'/pet/info/'+${applyExp.pet.id}" th:text="${applyExp.pet.name}"
                                                href="#">张哥</a>
                                         </td>
-                                        <th th:text="${applyExp.pet.breed}">宠物品种</th>
-                                        <th th:text="${applyExp.apply.type==1?'领养':'寄养'}">申请类别</th>
+                                        <td th:if="${applyExp.apply.type==3}">
+                                            <!--申请工作人员-->
+                                            <a th:href="'/staff/info/'+${applyExp.staff.id}"
+                                               th:text="${applyExp.staff.name}"
+                                               href="#">张哥</a>
+                                        </td>
+                                        <th th:if="${applyExp.apply.type==1}">领养</th>
+                                        <th th:if="${applyExp.apply.type==2}">寄养</th>
+                                        <th th:if="${applyExp.apply.type==3}">预约</th>
                                         <th th:text="${applyExp.apply.handle==1?'未处理':'已处理'}">处理状态</th>
                                         <th th:text="${applyExp.apply.reply==1?'同意':'拒绝'}">处理结果</th>
                                         <th th:text="${#dates.format(applyExp.apply.gmtCreated,'yyyy-MM-dd HH:mm:ss')}">

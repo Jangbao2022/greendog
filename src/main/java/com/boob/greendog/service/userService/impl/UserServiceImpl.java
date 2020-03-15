@@ -30,7 +30,6 @@ public class UserServiceImpl implements IUserService {
     @Autowired
     private AdministratorMapper administratorMapper;
 
-
     @Autowired
     private PetMapper petMapper;
 
@@ -155,6 +154,16 @@ public class UserServiceImpl implements IUserService {
      * @return
      */
     private boolean updateCustomer(Customer customer) {
+        PetExample example = new PetExample();
+        example.createCriteria()
+                .andMasterIdEqualTo(customer.getId());
+        //更新我所有宠物的主人名
+
+        Pet record = new Pet();
+        record.setMasterNickname(customer.getNickname());
+
+        petMapper.updateByExampleSelective(record, example);
+
         customer.setGmtModified(new Date());
         return customerMapper.updateByPrimaryKeySelective(customer) == 1;
     }
