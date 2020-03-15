@@ -66,18 +66,20 @@ public interface IUserService {
     /**
      * 更新用户
      *
-     * @param user
+     * @param admin
+     * @param user session中的user
      * @return
      */
-    public boolean updateMe(User user);
+    public void updateMe(Administrator admin, User user);
 
     /**
      * 更新用户
      *
      * @param customer
+     * @param user session中的user
      * @return
      */
-    public boolean updateMe(Customer customer);
+    public void updateMe(Customer customer, User user);
 
 
     /**

@@ -3,6 +3,7 @@ package com.boob.greendog.controller;
 import com.boob.greendog.dto.PageDto;
 import com.boob.greendog.enums.UserTypeEnum;
 import com.boob.greendog.exp.User;
+import com.boob.greendog.model.Administrator;
 import com.boob.greendog.model.Customer;
 import com.boob.greendog.service.userService.IUserService;
 import org.springframework.beans.BeanUtils;
@@ -53,10 +54,11 @@ public class UserController {
     public String updateMe(Customer customer, HttpServletRequest request) {
         User user = (User) request.getSession().getAttribute("user");
         if (user.getType().equals(UserTypeEnum.CUSTOMER.getType())) {
-            userService.updateMe(customer);
+            userService.updateMe(customer, user);
         } else {
-            BeanUtils.copyProperties(customer, user);
-            userService.updateMe(user);
+            Administrator admin = new Administrator();
+            BeanUtils.copyProperties(customer, admin);
+            userService.updateMe(admin, user);
         }
         //更新session域
 //        request.getSession().setAttribute("user", user);

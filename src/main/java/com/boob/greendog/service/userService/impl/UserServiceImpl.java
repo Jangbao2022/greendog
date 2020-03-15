@@ -160,9 +160,10 @@ public class UserServiceImpl implements IUserService {
     }
 
     @Override
-    public boolean updateMe(Customer customer) {
+    public void updateMe(Customer customer, User user) {
         //直接更新
-        return updateCustomer(customer);
+        updateCustomer(customer);
+        BeanUtils.copyProperties(customer, user);
     }
 
     /**
@@ -180,20 +181,15 @@ public class UserServiceImpl implements IUserService {
     /**
      * 更新个人信息
      *
-     * @param user
+     * @param admin
      * @return
      */
-    public boolean updateMe(User user) {
-        if (user.getType().equals(UserTypeEnum.CUSTOMER.getType())) {
-            Customer customer = new Customer();
-            BeanUtils.copyProperties(user, customer);
-            return updateCustomer(customer);
-        } else {
-            Administrator admin = new Administrator();
-            BeanUtils.copyProperties(user, admin);
-            return updateAdmin(admin);
-        }
+    @Override
+    public void updateMe(Administrator admin, User user) {
+        updateAdmin(admin);
+        BeanUtils.copyProperties(admin, user);
     }
+
 
     @Override
     public PageDto<Customer> getAllCustomers(String sPage, String sLimit) {
