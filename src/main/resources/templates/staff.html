@@ -16,14 +16,19 @@
                             <div class="card-header"
                                  style="background-image: url(/demo/photos/ales-krivec-107499-500.jpg);"></div>
                             <div class="card-body text-center">
-                                <img th:if="${staffExp.staff.pic!=null}" class="card-profile-img"
+                                <!--显示自己头像-->
+                                <img th:if="${staffExp!=null&&staffExp.staff.pic!=null}" class="card-profile-img"
                                      style="width: 100px;height:100px;" th:src="${staffExp.staff.pic}">
-                                <img th:if="${staffExp.staff.pic==null&&staffExp.staff.sex!=null}"
+
+                                <!--根据男女显示-->
+                                <img th:if="${staffExp!=null&&staffExp.staff.pic==null&&staffExp.staff.sex!=null}"
                                      style="width: 100px;height:120px;" class="card-profile-img"
-                                     th:src="'/staffimage/'+ ${staffExp.staff.sex}+'.jpg)'">
-                                <img th:if="${staffExp.staff.pic==null&&staffExp.staff.sex==null}"
+                                     th:src="'/staffimage/'+ ${staffExp.staff.sex}+'.jpg'">
+
+                                <!--默认显示-->
+                                <img th:if="${staffExp==null||(staffExp.staff.pic==null&&staffExp.staff.sex==null)}"
                                      style="width: 100px;height:100px;" class="card-profile-img"
-                                     th:src="'/staffimage/1.jpg'">
+                                     src="/staffimage/1.jpg">
                                 <h3 class="mb-3" th:text="${staffExp!=null?staffExp.staff.name:''}">Peter
                                     Richards</h3>
                                 <div class="ml-auto" th:if="${staffExp!=null&&(session.user.type==2)}">
@@ -41,7 +46,7 @@
                                 <h3 class="card-title">工作人员信息</h3>
                             </div>
                             <div class="card-body">
-                                <h3 class="card-title" th:text="${staffExp!=null?'更新':'添加'+'用户'}">编辑信息</h3>
+                                <!--<h3 class="card-title" th:text="${staffExp!=null?'更新':'添加'+'工作人员'}">编辑信息</h3>-->
                                 <div class="row">
                                     <!--<input type="hidden" name="_method" value="put">-->
                                     <input type="text" th:if="${staffExp!=null}" name="id"

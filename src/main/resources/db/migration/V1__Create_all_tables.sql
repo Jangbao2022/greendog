@@ -7,7 +7,7 @@ CREATE TABLE customer -- 用户表--
   age          INT(3) COMMENT '年龄',
   address      VARCHAR(100) COMMENT '地址',
   contact      VARCHAR(100) COMMENT '联系方式',
-  `account`    VARCHAR(10) NOT NULL COMMENT '账号',
+  `account`    VARCHAR(20) NOT NULL COMMENT '账号',
   `password`   VARCHAR(20) NOT NULL COMMENT '密码',
 
   gmt_created  datetime COMMENT '创建时间',
@@ -54,7 +54,7 @@ CREATE TABLE administrator -- 管理员表--
   id           BIGINT(10) PRIMARY KEY auto_increment,
   `name`       VARCHAR(30) NOT NULL COMMENT '名字',
   `nickname`   VARCHAR(30) NOT NULL COMMENT '昵称',
-  `account`    VARCHAR(10) NOT NULL COMMENT '账号',
+  `account`    VARCHAR(20) NOT NULL COMMENT '账号',
   `password`   VARCHAR(20) NOT NULL COMMENT '密码',
 
   gmt_created  datetime COMMENT '创建时间',

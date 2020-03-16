@@ -34,8 +34,8 @@ public class StaffController {
                               @RequestParam(name = "sLimit", required = false) String sLimit,
                               Model model) {
 
-        //设置每页5篇
-        sLimit = "5";
+        //设置每页10人
+        sLimit = "10";
         PageDto<StaffExp> StaffDto = staffService.getAllStaff(sPage, sLimit);
         model.addAttribute("pageDto", StaffDto);
         return "allStaff";

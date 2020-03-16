@@ -40,6 +40,9 @@ public class PetController {
 
 
         //所有宠物
+        //每页12个
+        sLimit = "12";
+
         PageDto<Pet> petDto = petService.getALLPets(sPage, sLimit);
         model.addAttribute("pageDto", petDto);
         return "allPet";
@@ -61,6 +64,8 @@ public class PetController {
                             HttpServletRequest request,
                             Model model) {
 
+        //每页12个
+        sLimit = "12";
         User user = (User) request.getSession().getAttribute("user");
         PageDto<Pet> petDto = petService.getMyPets(sPage, sLimit, user.getId());
         model.addAttribute("pageDto", petDto);
