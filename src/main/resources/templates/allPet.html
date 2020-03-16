@@ -40,6 +40,9 @@
                                                            th:href="'/user/info/'+${pet.masterId}">
                                                             张哥</a>
                                                     </div>
+                                                    <div th:if="${pet.masterId==null}">
+                                                        <p>无</p>
+                                                    </div>
                                                 </small>
                                             </div>
                                             <div class="ml-auto text-muted" th:if="${session.user.type==1}">
