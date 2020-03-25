@@ -13,7 +13,6 @@ a pet shop management system
 #请求类型(type)
 1. 领养
 2. 寄养
-3. 预约
 
 #请求结果(reply)
 1. 同意

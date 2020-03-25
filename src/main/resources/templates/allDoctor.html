@@ -1,0 +1,98 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragment::headImport"></head>
+<title>AllDoctor</title>
+<body class="">
+<div class="page">
+    <div class="page-main">
+        <!--顶部右边-->
+        <div th:replace="fragment::topBarRight"></div>
+        <div th:replace="fragment::topBar(${session.user.type})"></div>
+        <div class="my-3 my-md-5">
+            <div class="container">
+                <div class="row row-cards">
+                    <div class="col-lg-12">
+                        <div class="card">
+                            <div class="card-header">
+                                <h3 class="card-title">医生</h3>
+                                <a th:if="${session.user.type==2}" href="/doctor/addDoctorPage"
+                                   style="margin-left: 88%"
+                                   class="btn btn-primary">添加</a>
+                            </div>
+                            <div class="table-responsive">
+                                <table class="table card-table  table-vcenter">
+                                    <thead>
+                                    <tr>
+                                        <th colspan="2">名字</th>
+                                        <th>性别</th>
+                                        <th>预约人</th>
+                                        <th>年龄</th>
+                                        <th>价格</th>
+                                        <th>联系方式</th>
+                                        <th th:if="${session.user.type==2}" colspan="2">操作</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr th:each="doctorExp:${pageDto.elements}">
+                                        <td class="w-1">
+                                            <span class="avatar"
+                                                  th:style="'background-image: url('+ ${doctorExp.doctor.pic}+')'"></span>
+                                        </td>
+                                        <td>
+                                            <a th:href="'/doctor/info/'+${doctorExp.doctor.id}"
+                                               th:text="${doctorExp.doctor.name}">
+                                            </a>
+                                        </td>
+                                        <td th:text="${doctorExp.doctor.sex==1}?'男':'女'">性别</td>
+                                        <td th:if="${doctorExp.customer!=null}">
+                                            <a th:if="${session.user.type==2}"
+                                               th:href="'/user/info/'+${doctorExp.customer.id}"
+                                               th:text="${doctorExp.customer.name}">
+                                            </a>
+                                            <div th:if="${session.user.type==1}"
+                                                 th:text="${doctorExp.customer.name}">
+                                            </div>
+                                        </td>
+                                        <td th:if="${doctorExp.customer==null}">无</td>
+                                        <td th:text="${doctorExp.doctor.age}">年龄</td>
+                                        <td th:text="${doctorExp.doctor.price}">价格</td>
+                                        <td th:text="${doctorExp.doctor.contact}">联系方式</td>
+                                        <div th:if="${session.user.type==1}">
+                                            <td class="w-1" title="预约">
+                                                <a th:href="'/appointment/addAppointmentPage/'+${doctorExp.doctor.id}"
+                                                   class="btn btn-secondary btn-sm">
+                                                    预约
+                                                </a>
+                                            </td>
+                                        </div>
+                                        <div th:if="${session.user.type==2}">
+                                            <td class="w-1" title="修改">
+                                                <a th:href="'/doctor/info/'+${doctorExp.doctor.id}"
+                                                   class="btn btn-secondary btn-sm">
+                                                    修改
+                                                </a>
+                                            </td>
+                                            <td class="w-1" title="删除">
+                                                <a th:href="'/doctor/delete/'+${doctorExp.doctor.id}"
+                                                   class="btn btn-secondary btn-sm">
+                                                    删除
+                                                </a>
+                                            </td>
+                                        </div>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                                <div th:replace="fragment::dangerMessage"></div>
+                                <nav th:replace="fragment::changePage"></nav>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <footer th:replace="fragment::footer">
+    </footer>
+</div>
+</body>
+</html>

@@ -2,13 +2,13 @@ package com.boob.greendog.controller;
 
 import com.boob.greendog.exp.User;
 import com.boob.greendog.model.Customer;
+import com.boob.greendog.service.packetService.IPacketService;
 import com.boob.greendog.service.userService.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import javax.jws.WebParam;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -18,6 +18,9 @@ public class LoginController {
 
     @Autowired
     private IUserService userService;
+
+    @Autowired
+    private IPacketService packetService;
 
     /**
      * 登录
@@ -85,6 +88,9 @@ public class LoginController {
         if (!checkAccount) {
             //注册账号
             userService.register(customer);
+
+            //开通钱包功能
+            packetService.addPacket();
             return "login";
         } else {
             model.addAttribute("message", "账号已存在,换个试试把");

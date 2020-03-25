@@ -1,0 +1,131 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragment::headImport"></head>
+<title>Doctor</title>
+<body class="">
+<div class="page">
+    <div class="page-main">
+        <!--顶部右边-->
+        <div th:replace="fragment::topBarRight"></div>
+        <div th:replace="fragment::topBar(${session.user.type})"></div>
+        <div class="my-3 my-md-5">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-4">
+                        <div class="card card-profile">
+                            <div class="card-header"
+                                 style="background-image: url(/demo/photos/ales-krivec-107499-500.jpg);"></div>
+                            <div class="card-body text-center">
+                                <!--显示自己头像-->
+                                <img th:if="${doctorExp!=null}" class="card-profile-img"
+                                     style="width: 100px;height:100px;" th:src="${doctorExp.doctor.pic}">
+
+                                <!--默认显示-->
+                                <img th:if="${doctorExp==null}"
+                                     style="width: 100px;height:100px;" class="card-profile-img"
+                                     src="/doctorimage/1.jpg">
+                                <h3 class="mb-3" th:text="${doctorExp!=null?doctorExp.doctor.name:''}">Peter
+                                    Richards</h3>
+                                <div class="ml-auto" th:if="${doctorExp!=null&&(session.user.type==2)}">
+                                    <a th:onclick="|openUploadDoctorPic(${doctorExp.doctor.id})|"
+                                       class="btn btn-primary">
+                                        <i class="fe fe-plus"></i>
+                                        更新图片
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-8">
+                        <form class="card" action="/doctor/addOrUpdateDoctor" method="post">
+                            <div class="card-header">
+                                <h3 class="card-title">医生信息</h3>
+                            </div>
+                            <div class="card-body">
+                                <!--<h3 class="card-title" th:text="${staffExp!=null?'更新':'添加'+'工作人员'}">编辑信息</h3>-->
+                                <div class="row">
+                                    <!--<input type="hidden" name="_method" value="put">-->
+                                    <input type="text" th:if="${doctorExp!=null}" name="id"
+                                           th:value="${doctorExp.doctor.id}" hidden>
+                                    <div class="col-sm-5 col-md-5">
+                                        <div class="form-group">
+                                            <label class="form-label">姓名</label>
+                                            <input type="text" class="form-control"
+                                                   th:value="${doctorExp!=null?doctorExp.doctor.name:''}" name="name"
+                                                   required placeholder="姓名" th:disabled="${session.user.type==1}">
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-5 col-md-5">
+                                        <div class="form-group">
+                                            <label class="form-label">预约人</label>
+                                            <input type="text" class="form-control"
+                                                   th:value="${doctorExp!=null&&doctorExp.customer!=null?doctorExp.customer.name:''}"
+                                                   name="name" placeholder="姓名" disabled>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-3 col-md-3">
+                                        <div class="form-group">
+                                            <label class="form-label">性别</label>
+                                            <input type="radio" name="sex"
+                                                   value="1" th:checked="${doctorExp!=null&&doctorExp.doctor.sex==1}"
+                                                   th:text="男" th:disabled="${session.user.type==1}">
+                                            <input type="radio" name="sex"
+                                                   value="2" th:checked="${doctorExp!=null&&doctorExp.doctor.sex==2}"
+                                                   th:text="女" th:disabled="${session.user.type==1}">
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-3 col-md-3">
+                                        <div class="form-group">
+                                            <label class="form-label">年龄</label>
+                                            <input type="number" class="form-control" name="age"
+                                                   th:value="${doctorExp!=null?doctorExp.doctor.age:''}"
+                                                   placeholder="" th:disabled="${session.user.type==1}">
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-3 col-md-3">
+                                        <div class="form-group">
+                                            <label class="form-label">价格</label>
+                                            <input type="number" class="form-control" name="price" required
+                                                   th:value="${doctorExp!=null?doctorExp.doctor.price:''}"
+                                                   placeholder="" th:disabled="${session.user.type==1}">
+                                        </div>
+                                    </div>
+
+                                    <div class="col-sm-12 col-md-12">
+                                        <div class="form-group">
+                                            <label class="form-label">地址</label>
+                                            <input type="text" class="form-control" name="address"
+                                                   th:value="${doctorExp!=null?doctorExp.doctor.address:''}"
+                                                   placeholder="" th:disabled="${session.user.type==1}">
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-12 col-md-12">
+                                        <div class="form-group">
+                                            <label class="form-label">联系方式</label>
+                                            <input type="number" class="form-control" placeholder=""
+                                                   th:value="${doctorExp!=null?doctorExp.doctor.contact:''}"
+                                                   name="contact" th:disabled="${session.user.type==1}">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--用户不是管理员并且工作人员未被预约-->
+                            <div th:if="${session.user.type==1&&doctorExp.customer==null}">
+                                <a th:href="'/appointment/addAppointmentPage/'+${doctorExp.doctor.id}"
+                                   style="margin-left: 88%;margin-bottom: 10px" class="btn btn-primary">预约</a>
+                            </div>
+                            <div class="card-footer text-right" th:if="${session.user.type==2}">
+                                <input type="submit" value="提交" class="btn btn-primary">
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <footer th:replace="fragment::footer">
+    </footer>
+</div>
+<script src="/assets/js/my.js"></script>
+</body>
+</html>

@@ -46,13 +46,13 @@ public class BulletinController {
      * @return
      */
     @RequestMapping("delete/{id}")
-    public String deleteCustomer(@PathVariable("id") Long id, Model model) {
+    public String deleteBulletin(@PathVariable("id") Long id, Model model) {
         bulletinService.deleteBulletinById(id);
         return "redirect:/bulletin/allBulletins";
     }
 
     /**
-     * 添加bulletin页面
+     * 修改bulletin页面
      *
      * @return
      */

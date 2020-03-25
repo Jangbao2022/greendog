@@ -1,0 +1,82 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragment::headImport"></head>
+<title>AllMedicine</title>
+<body class="">
+<div class="page">
+    <div class="page-main">
+        <!--顶部右边-->
+        <div th:replace="fragment::topBarRight"></div>
+        <div th:replace="fragment::topBar(${session.user.type})"></div>
+        <div class="my-3 my-md-5">
+            <div class="container">
+                <div class="row row-cards">
+                    <div class="col-lg-12">
+                        <div class="card">
+                            <div class="card-header">
+                                <h3 class="card-title">所有药品</h3>
+                                <a th:if="${session.user.type==2}" href="/medicine/addMedicinePage"
+                                   style="margin-left: 88%"
+                                   class="btn btn-primary">添加</a>
+                            </div>
+                            <div class="row row-cards">
+                                <div class="col-sm-6 col-lg-3" th:each="medicine:${pageDto.elements}">
+                                    <div class="card p-3">
+                                        <div class="d-flex align-items-center px-2">
+                                            <div class="card-body">
+                                                <div class="mb-4 text-center">
+                                                    <img th:src="${medicine.pic}"
+                                                         alt="" class="img-fluid">
+                                                </div>
+                                                <h4 class="card-title">
+                                                    <a th:href="'/medicine/info/'+${medicine.id}"
+                                                       th:text="${medicine.name}">And this
+                                                        isn't my nose. This is a false one.</a></h4>
+                                                <div class="mt-5 d-flex align-items-center">
+                                                    <div class="product-price">
+                                                        <strong>￥[[${medicine.price}]]</strong>
+                                                    </div>
+                                                    <span th:if="${medicine.status==1}"
+                                                          class="badge badge-danger">热销</span>
+                                                    <span th:if="${medicine.status==2}"
+                                                          class="badge badge-warning">下架</span>
+                                                    <div class="ml-auto">
+                                                        <div class="ml-auto text-muted"
+                                                             th:if="${session.user.type==2}">
+                                                            <a th:href="'/medicine/info/'+${medicine.id}" title="修改"
+                                                               class="icon d-none d-md-inline-block ml-3"><i
+                                                                    class="fe fe-book"></i></a>
+                                                            <a th:href="'/medicine/close/'+${medicine.id}" title="下架"
+                                                               class="icon d-none d-md-inline-block ml-3"><i
+                                                                    class="fe fe-trash"></i></a>
+                                                        </div>
+                                                        <div class="ml-auto text-muted"
+                                                             th:if="${session.user.type==1&&medicine.status==1}">
+                                                            <a th:href="'/shop/buy/'+${medicine.id}" title="直接购买"
+                                                               class="icon d-none d-md-inline-block ml-3"><i
+                                                                    class="fe fe-tablet"></i></a>
+                                                            <a th:href="'/trolley/addTrolley/'+${medicine.id}"
+                                                               title="加入购物车"
+                                                               class="icon d-none d-md-inline-block ml-3"><i
+                                                                    class="fe  fe-truck"></i></a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div th:replace="fragment::dangerMessage"></div>
+                            <nav th:replace="fragment::changePage"></nav>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <footer th:replace="fragment::footer">
+    </footer>
+</div>
+</body>
+</html>

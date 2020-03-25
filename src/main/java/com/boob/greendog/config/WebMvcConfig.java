@@ -61,15 +61,29 @@ public class WebMvcConfig implements WebMvcConfigurer {
         customerPathList.add("/pet/addOrUpdateBulletin");
 
         customerPathList.add("/user/**");
-        customerPathList.add("/staff/**");
+        customerPathList.add("/doctor/**");
+        customerPathList.add("/appointment/**");
+        customerPathList.add("/medicine/**");
+        customerPathList.add("/disease/**");
         ArrayList<String> excludePathPatterns = new ArrayList<>();
 
         excludePathPatterns.add("/user/profile");
         excludePathPatterns.add("/user/updateMe");
 
-        excludePathPatterns.add("/staff/allStaffs");
-        excludePathPatterns.add("/staff/myStaffs");
-        excludePathPatterns.add("/staff/info/**");
+
+        excludePathPatterns.add("/doctor/allDoctors");
+        excludePathPatterns.add("/doctor/myDoctors");
+        excludePathPatterns.add("/doctor/info/**");
+
+        excludePathPatterns.add("/appointment/myAppointments");
+        excludePathPatterns.add("/appointment/addAppointmentPage/**");
+        excludePathPatterns.add("/appointment/order");
+
+        excludePathPatterns.add("/medicine/allMedicines");
+        excludePathPatterns.add("/medicine/info/**");
+
+        excludePathPatterns.add("/disease/allDiseases");
+        excludePathPatterns.add("/disease/info/**");
 
         registry.addInterceptor(new CustomerInterceptor())
                 .addPathPatterns(customerPathList)

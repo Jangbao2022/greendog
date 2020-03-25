@@ -8,12 +8,24 @@ public enum PageUrlEnum {
     ALL_APPLIES("/apply/allApplies"),
     MY_APPLIES("/apply/myApplies"),
 
+    ALL_APPOINTMENTS("/appointment/allAppointments"),
+    MY_APPOINTMENTS("/appointment/myAppointments"),
+
     ALL_BULLETINS("/bulletin/allBulletins"),
 
     ALL_CUSTOMERS("/user/allCustomers"),
 
-    ALL_STAFFS("/staff/allStaffs"),
-    MY_STAFFS("/staff/myStaffs"),
+    ALL_MEDICINES("/medicine/allMedicines"),
+
+    ALL_INSTANCES("/instance/allInstances"),
+
+    ALL_DISEASES("/instance/allDiseases"),
+
+    ALL_BILLS("/bill/allBills"),
+    MY_BILLS("/bill/myBills"),
+
+    ALL_DOCTORS("/doctor/allDoctors"),
+    MY_DOCTORS("/doctor/myDoctors"),
 
 
     ;

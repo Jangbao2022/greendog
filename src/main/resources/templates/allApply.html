@@ -1,13 +1,13 @@
 <!doctype html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head th:replace="fragement::headImport"></head>
+<head th:replace="fragment::headImport"></head>
 <title>AllApply</title>
 <body class="">
 <div class="page">
     <div class="page-main">
         <!--顶部右边-->
-        <div th:replace="fragement::topBarRight"></div>
-        <div th:replace="fragement::topBar(${session.user.type})"></div>
+        <div th:replace="fragment::topBarRight"></div>
+        <div th:replace="fragment::topBar(${session.user.type})"></div>
         <div class="my-3 my-md-5">
             <div class="container">
                 <div class="row row-cards">
@@ -40,14 +40,13 @@
                                         </td>
                                         <td th:if="${applyExp.apply.type!=3}">
                                             <!--申请宠物-->
-                                            <a th:href="'/pet/info/'+${applyExp.pet.id}" th:text="${applyExp.pet.name}"
-                                               href="#">张哥</a>
+                                            <a th:href="'/pet/info/'+${applyExp.pet.id}"
+                                               th:text="${applyExp.pet.name}">张哥</a>
                                         </td>
                                         <td th:if="${applyExp.apply.type==3}">
                                             <!--申请工作人员-->
                                             <a th:href="'/staff/info/'+${applyExp.staff.id}"
-                                               th:text="${applyExp.staff.name}"
-                                               href="#">张哥</a>
+                                               th:text="${applyExp.staff.name}">张哥</a>
                                         </td>
                                         <th th:if="${applyExp.apply.type==1}">领养</th>
                                         <th th:if="${applyExp.apply.type==2}">寄养</th>
@@ -87,7 +86,8 @@
                                     </tr>
                                     </tbody>
                                 </table>
-                                <nav th:replace="fragement::changePage"></nav>
+                                <div th:replace="fragment::dangerMessage"></div>
+                                <nav th:replace="fragment::changePage"></nav>
                             </div>
                         </div>
                     </div>
@@ -95,14 +95,7 @@
             </div>
         </div>
     </div>
-    <footer class="footer">
-        <div class="container">
-            <div class="row align-items-center flex-row-reverse">
-                <div class="col-12 text-center">
-                    Copyright &copy; 2018.Yanbobo All rights reserved.
-                </div>
-            </div>
-        </div>
+    <footer th:replace="fragement::footer">
     </footer>
 </div>
 </body>

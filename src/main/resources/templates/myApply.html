@@ -1,13 +1,13 @@
 <!doctype html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head th:replace="fragement::headImport"></head>
+<head th:replace="fragment::headImport"></head>
 <title>MyApply</title>
 <body class="">
 <div class="page">
     <div class="page-main">
         <!--顶部右边-->
-        <div th:replace="fragement::topBarRight"></div>
-        <div th:replace="fragement::topBar(${session.user.type})"></div>
+        <div th:replace="fragment::topBarRight"></div>
+        <div th:replace="fragment::topBar(${session.user.type})"></div>
         <div class="my-3 my-md-5">
             <div class="container">
                 <div class="row row-cards">
@@ -55,7 +55,7 @@
                                     </tr>
                                     </tbody>
                                 </table>
-                                <nav th:replace="fragement::changePage"></nav>
+                                <nav th:replace="fragment::changePage"></nav>
                             </div>
                         </div>
                     </div>
@@ -63,14 +63,7 @@
             </div>
         </div>
     </div>
-    <footer class="footer">
-        <div class="container">
-            <div class="row align-items-center flex-row-reverse">
-                <div class="col-12 text-center">
-                    Copyright &copy; 2018.Yanbobo All rights reserved.
-                </div>
-            </div>
-        </div>
+    <footer th:replace="fragment::footer">
     </footer>
 </div>
 </body>

@@ -1,0 +1,114 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragment::headImport"></head>
+<title>Appointments</title>
+<body class="">
+<div class="page">
+    <div class="page-main">
+        <!--顶部右边-->
+        <div th:replace="fragment::topBarRight"></div>
+        <div th:replace="fragment::topBar(${session.user.type})"></div>
+        <div class="my-3 my-md-5">
+            <div class="container">
+                <div class="row row-cards">
+                    <div class="col-lg-12">
+                        <div class="card">
+                            <div class="card-header">
+                                <h3 class="card-title">我的预约</h3>
+                            </div>
+                            <div class="table-responsive">
+                                <table class="table card-table  table-vcenter">
+                                    <thead>
+                                    <tr>
+                                        <th colspan="2">医生</th>
+                                        <th>预约人</th>
+                                        <th>宠物</th>
+                                        <th>病症</th>
+                                        <th>价格</th>
+                                        <th>处理结果</th>
+                                        <th>申请时间</th>
+                                        <th>处理时间</th>
+                                        <th colspan="2">处理</th>
+                                        <th th:if="${session.user.type==2}">操作</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr th:each="appment:${pageDto.elements}">
+                                        <td class="w-1">
+                                            <span class="avatar" th:if="${appment.doctor.pic!=null}"
+                                                  th:style="'background-image: url('+ ${appment.doctor.pic}+')'"></span>
+                                            <span class="avatar"
+                                                  th:if="${appment.doctor.pic==null&&appment.doctor.sex!=null}"
+                                                  th:style="'background-image: url(/doctorimage/'+ ${appment.doctor.sex}+'.jpg)'"></span>
+                                            <span class="avatar"
+                                                  th:if="${appment.doctor.pic==null&&appment.doctor.sex==null}"
+                                                  style="background-image: url('/doctorimage/1.jpg')"></span>
+                                        </td>
+                                        <td>
+                                            <a th:href="'/doctor/info/'+${appment.doctor.id}"
+                                               th:text="${appment.doctor.name}">
+                                            </a>
+                                        </td>
+                                        <td>
+                                            <a th:href="'/user/info/'+${appment.customer.id}"
+                                               th:text="${appment.customer.name}">
+                                            </a>
+                                        </td>
+
+                                        <td>
+                                            <a th:href="'/pet/info/'+${appment.pet.id}"
+                                               th:text="${appment.pet.name}">宠物</a>
+                                        </td>
+                                        <td>
+                                            <a th:href="'/disease/info/'+${appment.disease.id}" th:text="${appment.disease.name}">病症</a>
+                                        </td>
+                                        <td th:text="${appment.appointment.price}">价格</td>
+                                        <!--<th th:text="${appment.appointment.handle==1?'未处理':'已处理'}">处理状态</th>-->
+                                        <th th:text="${appment.appointment.reply==1?'同意':'拒绝'}">处理结果</th>
+                                        <th th:text="${#dates.format(appment.appointment.gmtCreated,'yyyy-MM-dd HH:mm:ss')}">
+                                            申请时间
+                                        </th>
+                                        <th th:text="${#dates.format(appment.appointment.gmtModified,'yyyy-MM-dd HH:mm:ss')}">
+                                            处理时间
+                                        </th>
+                                        <div th:if="${session.user.type==2&&appment.appointment.handle==1}">
+                                            <td class="w-1" title="同意">
+                                                <a th:href="'/appointment/consent/'+${appment.appointment.id}"
+                                                   class="icon">
+                                                    <i class="fe fe-check"></i></a>
+                                            </td>
+                                            <td class="w-1" title="拒绝">
+                                                <a th:href="'/appointment/reject/'+${appment.appointment.id}"
+                                                   class="icon">
+                                                    <i class="fe fe-x"></i></a>
+                                            </td>
+                                        </div>
+                                        <div th:if="${appment.appointment.handle==2}">
+                                            <td colspan="2">已处理</td>
+                                        </div>
+                                        <div th:if="${session.user.type==1&&appment.appointment.handle==1}">
+                                            <td colspan="2">待处理</td>
+                                        </div>
+                                        <td th:if="${session.user.type==2}" class="w-1" title="删除">
+                                            <a th:href="'/appointment/delete/'+${appment.appointment.id}"
+                                               class="btn btn-secondary btn-sm">
+                                                删除
+                                            </a>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                                <div th:replace="fragment::dangerMessage"></div>
+                                <nav th:replace="fragment::changePage"></nav>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <footer th:replace="fragment::footer">
+    </footer>
+</div>
+</body>
+</html>

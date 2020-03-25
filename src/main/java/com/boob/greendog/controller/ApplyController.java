@@ -109,16 +109,6 @@ public class ApplyController {
         return "redirect:/index";
     }
 
-    /**
-     * 申请预约
-     *
-     * @return
-     */
-    @RequestMapping("order")
-    public String order(Apply apply) {
-        applyService.order(apply);
-        return "redirect:/index";
-    }
 
     /**
      * 删除请求

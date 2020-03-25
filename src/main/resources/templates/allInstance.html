@@ -1,0 +1,73 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragment::headImport"></head>
+<title>Instances</title>
+<body class="">
+<div class="page">
+    <div class="page-main">
+        <!--顶部右边-->
+        <div th:replace="fragment::topBarRight"></div>
+        <div th:replace="fragment::topBar(${session.user.type})"></div>
+        <div class="my-3 my-md-5">
+            <div class="container">
+                <div class="page-header">
+                    <h1 class="page-title">
+                        病例
+                    </h1>
+                </div>
+                <div class="row row-cards">
+                    <div class="col-lg-12">
+                        <div class="card">
+                            <table class="table card-table table-vcenter">
+                                <tr>
+                                    <th colspan="2">宠物</th>
+                                    <th>客户</th>
+                                    <th>医生</th>
+                                    <th>病症</th>
+                                    <th>时间</th>
+                                </tr>
+                                <tr th:each="instanceExp:${pageDto.elements}">
+                                    <div>
+                                        <td class="w-1">
+                                            <span class="avatar" th:if="${instanceExp.pet.picture!=null}"
+                                                  th:style="'background-image: url('+ ${instanceExp.pet.picture}+')'"></span>
+                                        </td>
+                                        <td>
+                                            <a th:href="'/pet/info/'+${instanceExp.pet.id}"
+                                               th:text="${instanceExp.pet.name}">
+                                            </a>
+                                        </td>
+                                    </div>
+                                    <td>
+                                        <a th:href="'/user/info/'+${instanceExp.customer.id}"
+                                           th:text="${instanceExp.customer.name}">
+                                        </a>
+                                    </td>
+                                    <td>
+                                        <a th:href="'/doctor/info/'+${instanceExp.doctor.id}"
+                                           th:text="${instanceExp.doctor.name}">
+                                        </a>
+                                    </td>
+                                    <td>
+                                        <a th:href="'/disease/info/'+${instanceExp.disease.id}"
+                                           th:text="${instanceExp.disease.name}"></a>
+                                    </td>
+                                    <th th:text="${#dates.format(instanceExp.instance.gmtCreated,'yyyy-MM-dd HH:mm:ss')}">
+                                        消费时间
+                                    </th>
+                                </tr>
+                            </table>
+                            <div th:replace="fragment::dangerMessage"></div>
+                            <nav th:replace="fragment::changePage"></nav>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <footer th:replace="fragment::footer">
+    </footer>
+</div>
+</body>
+</html>
+

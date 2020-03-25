@@ -5,6 +5,8 @@ import com.boob.greendog.enums.UserTypeEnum;
 import com.boob.greendog.exp.User;
 import com.boob.greendog.model.Administrator;
 import com.boob.greendog.model.Customer;
+import com.boob.greendog.model.Packet;
+import com.boob.greendog.service.packetService.IPacketService;
 import com.boob.greendog.service.userService.IUserService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +26,9 @@ public class UserController {
     @Autowired
     private IUserService userService;
 
+    @Autowired
+    private IPacketService packetService;
+
     /**
      * 获取个人信息
      *
@@ -38,6 +43,8 @@ public class UserController {
             //用户为客户
             Customer customer = userService.customer(user.getId());
             model.addAttribute("customer", customer);
+            Packet packet = packetService.getPacketByCustomerId(customer.getId());
+            model.addAttribute("packet", packet);
         }
 
         return "profile";
@@ -97,11 +104,22 @@ public class UserController {
      * @return
      */
     @PostMapping("addOrUpdateUser")
-    public String addOrUpdateUser(Customer customer) {
-        userService.addOrUpdateCustomer(customer);
-        return "redirect:/user/allCustomers/";
+    public String addOrUpdateUser(Customer customer, Model model) {
+        boolean checkAccount = userService.checkAccount(customer.getAccount());
+        if (customer.getId() != null) {
+            userService.addOrUpdateCustomer(customer);
+        } else {
+            if (!checkAccount) {
+                userService.addOrUpdateCustomer(customer);
+                //新用户 开通钱包功能
+                packetService.addPacket();
+            } else {
+                model.addAttribute("message", "账号已存在,换个试试把");
+                return "forward:/user/allCustomers";
+            }
+        }
+        return "redirect:/user/allCustomers";
     }
-
 
     /**
      * 获取所有用户
@@ -140,5 +158,6 @@ public class UserController {
         }
         return "forward:/user/allCustomers";
     }
+
 
 }

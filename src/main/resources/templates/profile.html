@@ -1,13 +1,13 @@
 <!doctype html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head th:replace="fragement::headImport"></head>
-<title>User</title>
+<head th:replace="fragment::headImport"></head>
+<title>Profile</title>
 <body class="">
 <div class="page">
     <div class="page-main">
         <!--顶部右边-->
-        <div th:replace="fragement::topBarRight"></div>
-        <div th:replace="fragement::topBar(${session.user.type})"></div>
+        <div th:replace="fragment::topBarRight"></div>
+        <div th:replace="fragment::topBar(${session.user.type})"></div>
         <div class="my-3 my-md-5">
             <div class="container">
                 <div class="row">
@@ -21,6 +21,39 @@
                                 <p class="mb-4" th:text="'账号:'+${session.user.account}">
                                     Big belly rude boy, million dollar hustler. Unemployed.
                                 </p>
+                            </div>
+                        </div>
+
+                        <!--钱包栏-->
+                        <div th:if="${session.user.type==1}">
+                            <div class="card" style="height: 15%">
+                                <div class="card-body text-center">
+                                    <div class="h6">总资产</div>
+                                    <div class="display-6 font-weight-bold mb-6">￥[[${packet.totalMoney}]]</div>
+                                    <div class="progress progress-sm">
+                                        <div class="progress-bar bg-red" style="width: 100%"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card" style="height: 15%">
+                                <div class="card-body text-center ">
+                                    <div class="h6">已消费</div>
+                                    <div class="display-6 font-weight-bold mb-6">￥[[${packet.shopMoney}]]</div>
+                                    <div class="progress progress-sm">
+                                        <div class="progress-bar bg-green"
+                                             th:style="'width:'+${packet.shopMoney/packet.totalMoney}*100+'%'"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card" style="height: 15%">
+                                <div class="card-body text-center">
+                                    <div class="h6">剩余资产</div>
+                                    <div class="display-6 font-weight-bold mb-6">￥[[${packet.surplusMoney}]]</div>
+                                    <div class="progress progress-sm">
+                                        <div class="progress-bar bg-yellow"
+                                             th:style="'width:'+${packet.surplusMoney/packet.totalMoney}*100+'%'"></div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -116,7 +149,7 @@
             </div>
         </div>
     </div>
-    <footer th:replace="fragement::footer">
+    <footer th:replace="fragment::footer">
     </footer>
 </div>
 </body>

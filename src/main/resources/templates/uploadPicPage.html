@@ -1,13 +1,13 @@
 <!doctype html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head th:replace="fragement::headImport"></head>
+<head th:replace="fragment::headImport"></head>
 <title>UploadPetPic</title>
 <body class="">
 <div class="page">
     <div class="page-main">
         <!--顶部右边-->
-        <div th:replace="fragement::topBarRight"></div>
-        <div th:replace="fragement::topBar(${session.user.type})"></div>
+        <div th:replace="fragment::topBarRight"></div>
+        <div th:replace="fragment::topBar(${session.user.type})"></div>
         <div class="my-3 my-md-5">
             <div class="container">
                 <div class="row">
@@ -18,8 +18,8 @@
                                      th:src="${pet.picture!=null}?${pet.picture}:'/petimage/default.jpg'"
                                      alt="Photo by Nathan Guerrero" style="height: 300px"
                                      class="rounded">
-                                <img th:if="${staffExp!=null}" id="img"
-                                     th:src="${staffExp.staff.pic!=null}?${staffExp.staff.pic}:'/staffimage/1.jpg'"
+                                <img th:if="${doctorExp!=null}" id="img"
+                                     th:src="${doctorExp.doctor.pic!=null}?${doctorExp.doctor.pic}:'/staffimage/1.jpg'"
                                      alt="Photo by Nathan Guerrero" style="height: 300px"
                                      class="rounded">
                             </a>
@@ -44,11 +44,11 @@
                                         <input type="text" class="form-control" disabled
                                                placeholder="名字" th:value="${pet.name}">
                                     </div>
-                                    <div th:if="${staffExp!=null}">
+                                    <div th:if="${doctorExp!=null}">
                                         <input type="text" name="id"
-                                               th:value="${staffExp.staff.id}" hidden>
+                                               th:value="${doctorExp.doctor.id}" hidden>
                                         <input type="text" class="form-control" disabled
-                                               placeholder="名字" th:value="${staffExp.staff.name}">
+                                               placeholder="名字" th:value="${doctorExp.doctor.name}">
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -88,7 +88,7 @@
     </div>
 </div>
 </div>
-<footer th:replace="fragement::footer">
+<footer th:replace="fragment::footer">
 </footer>
 </div>
 <script src="/assets/js/my.js"></script>

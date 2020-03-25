@@ -1,13 +1,13 @@
 <!doctype html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head th:replace="fragement::headImport"></head>
+<head th:replace="fragment::headImport"></head>
 <title>User</title>
 <body class="">
 <div class="page">
     <div class="page-main">
         <!--顶部右边-->
-        <div th:replace="fragement::topBarRight"></div>
-        <div th:replace="fragement::topBar(${session.user.type})"></div>
+        <div th:replace="fragment::topBarRight"></div>
+        <div th:replace="fragment::topBar(${session.user.type})"></div>
         <div class="my-3 my-md-5">
             <div class="container">
                 <div class="row">
@@ -111,7 +111,7 @@
             </div>
         </div>
     </div>
-    <footer th:replace="fragement::footer">
+    <footer th:replace="fragment::footer">
     </footer>
 </div>
 </body>

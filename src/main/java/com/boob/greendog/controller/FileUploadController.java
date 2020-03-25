@@ -1,9 +1,9 @@
 package com.boob.greendog.controller;
 
-import com.boob.greendog.exp.StaffExp;
+import com.boob.greendog.exp.DoctorExp;
 import com.boob.greendog.model.Pet;
 import com.boob.greendog.service.petService.IPetService;
-import com.boob.greendog.service.staffService.IStaffService;
+import com.boob.greendog.service.doctorService.IDoctorService;
 import com.boob.greendog.util.FileUploadUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -22,7 +22,7 @@ public class FileUploadController {
     private IPetService petService;
 
     @Autowired
-    private IStaffService staffService;
+    private IDoctorService doctorService;
 
     /**
      * 上传图片页面
@@ -39,15 +39,15 @@ public class FileUploadController {
 
 
     /**
-     * 上传工作人员图片页面
+     * 上传医生图片页面
      *
      * @param
      * @return
      */
-    @RequestMapping(value = "staffPicPage/{id}")
-    public String staffPicPage(@PathVariable("id") Long id, Model model) {
-        StaffExp staffExp = staffService.getStaffById(id);
-        model.addAttribute("staffExp", staffExp);
+    @RequestMapping(value = "doctorPicPage/{id}")
+    public String doctorPicPage(@PathVariable("id") Long id, Model model) {
+        DoctorExp doctorExp = doctorService.getDoctorById(id);
+        model.addAttribute("doctorExp", doctorExp);
         return "uploadPicPage";
     }
 
@@ -74,15 +74,15 @@ public class FileUploadController {
      * @param file
      * @return
      */
-    @RequestMapping(value = "staffPic", method = RequestMethod.POST)
+    @RequestMapping(value = "doctorPic", method = RequestMethod.POST)
     public String uploadStaffPic(@RequestParam("id") Long id,
                                  @RequestParam("image") MultipartFile file) {
 
-        String fileUrl = FileUploadUtil.upLoadFileByMultipartFile(file, "staffimage");
+        String fileUrl = FileUploadUtil.upLoadFileByMultipartFile(file, "doctorimage");
 
         //更新宠物信息
-        staffService.uploadPic(id, fileUrl);
-        return "redirect:/upload/staffPicPage/" + id;
+        doctorService.uploadPic(id, fileUrl);
+        return "redirect:/upload/doctorPicPage/" + id;
     }
 
 }

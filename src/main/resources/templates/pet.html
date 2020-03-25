@@ -1,13 +1,13 @@
 <!doctype html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head th:replace="fragement::headImport"></head>
+<head th:replace="fragment::headImport"></head>
 <title>Pet</title>
 <body class="">
 <div class="page">
     <div class="page-main">
         <!--顶部右边-->
-        <div th:replace="fragement::topBarRight"></div>
-        <div th:replace="fragement::topBar(${session.user.type})"></div>
+        <div th:replace="fragment::topBarRight"></div>
+        <div th:replace="fragment::topBar(${session.user.type})"></div>
         <div class="my-3 my-md-5">
             <div class="container">
                 <div class="row">
@@ -63,7 +63,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label class="form-label">年龄</label>
-                                    <input type="text" class="form-control" placeholder=""
+                                    <input type="number" class="form-control" placeholder=""
                                            th:disabled="${session.user.type==1}"
                                            name="age" th:value="${pet!=null?pet.age:''}">
                                 </div>
@@ -92,12 +92,12 @@
                             </div>
                             <!--用户不是管理员并且用户不是主人-->
                             <div th:if="${session.user.type==1&&pet.masterId!=session.user.id}">
-                                <a th:href="@{/apply/adopt/(customerId=${session.user.id},receiverId=${pet.id})}"
+                                <a th:href="@{/apply/adopt/(customerId=${session.user.id},petId=${pet.id})}"
                                    style="margin-left: 88%;margin-bottom: 10px" class="btn btn-primary">申请领养</a>
                             </div>
                             <!--用户不是管理员并且用户是主人-->
                             <div th:if="${session.user.type==1&&pet.masterId==session.user.id}">
-                                <a th:href="@{/apply/send/(customerId=${session.user.id},receiverId=${pet.id})}"
+                                <a th:href="@{/apply/send/(customerId=${session.user.id},petId=${pet.id})}"
                                    style="margin-left: 88%;margin-bottom: 10px" class="btn btn-primary">申请寄养</a>
                             </div>
                             <div class="card-footer text-right" th:if="${session.user.type==2}">
@@ -109,7 +109,7 @@
             </div>
         </div>
     </div>
-    <footer th:replace="fragement::footer">
+    <footer th:replace="fragment::footer">
     </footer>
 </div>
 <script src="/assets/js/my.js"></script>

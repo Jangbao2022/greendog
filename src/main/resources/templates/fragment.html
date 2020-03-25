@@ -1,0 +1,195 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<!--头部导入栏-->
+<head th:fragment="headImport">
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta http-equiv="Content-Language" content="en"/>
+    <meta name="msapplication-TileColor" content="#2d89ef">
+    <meta name="theme-color" content="#4188c9">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="MobileOptimized" content="320">
+    <link rel="icon" href="../static/favicon.ico" type="image/x-icon"/>
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <!-- Generated: 2018-04-06 16:27:42 +0200 -->
+    <script src="/assets/js/require.min.js"></script>
+    <!-- Dashboard Core -->
+    <link href="/assets/css/dashboard.css" rel="stylesheet"/>
+    <script src="/assets/js/dashboard.js"></script>
+    <!-- Input Mask Plugin -->
+    <script src="/assets/plugins/input-mask/plugin.js"></script>
+</head>
+
+<!--顶部右边栏-->
+<div th:fragment="topBarRight" class="header py-4">
+    <div class="container">
+        <div class="d-flex">
+            <a class="header-brand" href="/index">
+                <img src="/demo/brand/tabler.svg" class="header-brand-img" alt="tabler logo">
+            </a>
+            <div style="font-family: monospace;width: 75%;" class="page-title" align="center">宠物医院管理
+            </div>
+            <div class="d-flex order-lg-2 ml-auto">
+                <div class="dropdown">
+                    <a href="#" class="nav-link pr-0 leading-none" data-toggle="dropdown">
+                        <span class="ml-2 d-none d-lg-block">
+                            <span class="mt-0 mb-4" th:text="${session.user.nickname}">Introduction</span>
+                            <small class="text-muted d-block mt-1"
+                                   th:text="${session.user.type==1?'客户':'管理员'}">管理员</small>
+                            <!--<h3 class="mb-3" th:text="${session.user.name}">Peter Richards</h3>-->
+                        </span>
+
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
+                        <a class="dropdown-item" href="/user/profile">
+                            <i class="dropdown-icon fe fe-user"></i> 个人信息
+                        </a>
+                        <a class="dropdown-item" href="/logon">
+                            <i class="dropdown-icon fe fe-log-out"></i> 退出登录
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--顶部栏-->
+<div th:fragment="topBar(type)" class="header collapse d-lg-flex p-0" id="headerMenuCollapse">
+    <div class="container">
+        <div class="row align-items-center">
+            <!--顶部栏-->
+            <div class="col-lg order-lg-first">
+                <div th:if="${type==1}">
+                    <ul th:replace="fragment::userTopBar"></ul>
+                </div>
+                <div th:if="${type==2}">
+                    <ul th:replace="fragment::adminTopBar"></ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--用户顶部栏-->
+<ul th:fragment="userTopBar" class="nav nav-tabs border-0 flex-column flex-lg-row">
+    <li class="nav-item">
+        <a href="/index" class="nav-link">
+            <i class="fe fe-home"></i>所有宠物</a>
+    </li>
+    <li class="nav-item ">
+        <a href="/pet/myPets" class="nav-link">
+            <i class="fe fe-calendar"></i> 我的宠物</a>
+    </li>
+    <li class="nav-item">
+        <a href="/doctor/allDoctors" class="nav-link ">
+            <i class="fe fe fe-users"></i>所有医生</a>
+    </li>
+    <li class="nav-item">
+        <a href="/medicine/allMedicines" class="nav-link">
+            <i class="fe fe-package"></i>药品</a>
+    </li>
+    <li class="nav-item">
+        <a href="/appointment/myAppointments" class="nav-link ">
+            <i class="fe fe-user"></i>我的预约</a>
+    </li>
+    <li class="nav-item">
+        <a href="/apply/myApplies" class="nav-link">
+            <i class="fe fe-user-check"></i>我的申请</a>
+    </li>
+    <li class="nav-item">
+        <a href="/bill/myBills" class="nav-link">
+            <i class="fe fe-book"></i>账单</a>
+    </li>
+    <li class="nav-item">
+        <a href="/trolley/MyTrolley" class="nav-link">
+            <i class="fe fe-shopping-cart"></i>购物车</a>
+    </li>
+    <li class="nav-item">
+        <a href="/bulletin/allBulletins" class="nav-link">
+            <i class="fe fe-check-square"></i> 网站公告</a>
+    </li>
+</ul>
+
+<!--管理员顶部栏-->
+<ul th:fragment="adminTopBar" class="nav nav-tabs border-0 flex-column flex-lg-row">
+    <li class="nav-item">
+        <a href="/index" class="nav-link ">
+            <i class="fe fe-home"></i>所有宠物</a>
+    </li>
+    <li class="nav-item">
+        <a href="/doctor/allDoctors" class="nav-link ">
+            <i class="fe fe-users"></i>所有医生</a>
+    </li>
+    <li class="nav-item">
+        <a href="/apply/allApplies" class="nav-link">
+            <i class="fe fe-user-check"></i>所有申请</a>
+    </li>
+    <li class="nav-item">
+        <a href="/user/allCustomers" class="nav-link">
+            <i class="fe fe-users"></i>所有用户</a>
+    </li>
+    <li class="nav-item">
+        <a href="/appointment/allAppointments" class="nav-link">
+            <i class="fe fe-user"></i>所有预约</a>
+    </li>
+    <li class="nav-item">
+        <a href="/medicine/allMedicines" class="nav-link">
+            <i class="fe fe-package"></i>药品</a>
+    </li>
+    <li class="nav-item">
+        <a href="/instance/allInstances" class="nav-link">
+            <i class="fe fe-square"></i>病例</a>
+    </li>
+    <li class="nav-item">
+        <a href="/bill/allBills" class="nav-link">
+            <i class="fe fe-book"></i>账单</a>
+    </li>
+    <li class="nav-item">
+        <a href="/disease/allDiseases" class="nav-link">
+            <i class="fe fe-package"></i>病症</a>
+    </li>
+    <!--<li class="nav-item">-->
+        <!--<a href="#" class="nav-link">-->
+            <!--<i class="fe fe-sidebar"></i>用户充值</a>-->
+    <!--</li>-->
+    <li class="nav-item ">
+        <a href="/bulletin/allBulletins" class="nav-link">
+            <i class="fe fe-check-square"></i> 网站公告</a>
+    </li>
+</ul>
+
+<!--底部栏-->
+<footer th:fragment="footer" class="footer">
+    <div class="container">
+        <div class="row align-items-center flex-row-reverse">
+            <div class="col-12 text-center">
+                Copyright &copy; 2018.Yanbobo All rights reserved.
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!--分页-->
+<nav th:fragment="changePage" style="margin-top: 10px;padding-bottom: 30px;margin-left: 10px;margin-right: 10px">
+    <a th:href="@{${pageDto.pageUrl}(sPage=${pageDto.prePage})}"
+       style="float: left"><i class="fe fe-chevron-left"></i>
+        前一页</a>
+    <a th:href="@{${pageDto.pageUrl}(sPage=${pageDto.afterPage})}"
+       style="float: right">后一页 <i class="fe fe-chevron-right"></i></a>
+</nav>
+
+<!--警告信息-->
+<div th:fragment="dangerMessage">
+    <div th:if="${message!=null}" class="alert alert-icon alert-danger"
+         role="alert" th:text="${message}">
+        <i class="fe fe-alert-triangle mr-2" aria-hidden="true"></i>
+    </div>
+</div>
+</html>

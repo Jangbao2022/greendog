@@ -1,13 +1,18 @@
 package com.boob.greendog.service.applyService.impl;
 
 import com.boob.greendog.dto.PageDto;
+import com.boob.greendog.enums.HandleEnum;
 import com.boob.greendog.enums.PageUrlEnum;
+import com.boob.greendog.enums.PetEnum;
+import com.boob.greendog.enums.ReplyEnum;
 import com.boob.greendog.exp.ApplyExp;
 import com.boob.greendog.mapper.ApplyMapper;
 import com.boob.greendog.mapper.CustomerMapper;
 import com.boob.greendog.mapper.PetMapper;
-import com.boob.greendog.mapper.StaffMapper;
-import com.boob.greendog.model.*;
+import com.boob.greendog.model.Apply;
+import com.boob.greendog.model.ApplyExample;
+import com.boob.greendog.model.Customer;
+import com.boob.greendog.model.Pet;
 import com.boob.greendog.service.applyService.IApplyService;
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,9 +36,6 @@ public class ApplyServiceImpl implements IApplyService {
 
     @Autowired
     private PetMapper petMapper;
-
-    @Autowired
-    private StaffMapper staffMapper;
 
     @Override
     public PageDto<ApplyExp> getMyApplies(String sPage, String sLimit, Long userId) {
@@ -98,15 +100,10 @@ public class ApplyServiceImpl implements IApplyService {
     private ApplyExp pottingApply(Apply apply) {
         ApplyExp applyExp = new ApplyExp();
         Customer customer = customerMapper.selectByPrimaryKey(apply.getCustomerId());
-        if (apply.getType() == 3) {
-            //如果申请的工作人员
-            Staff staff = staffMapper.selectByPrimaryKey(apply.getReceiverId());
-            applyExp.setStaff(staff);
-        } else {
-            //申请的宠物
-            Pet pet = petMapper.selectByPrimaryKey(apply.getReceiverId());
-            applyExp.setPet(pet);
-        }
+        //申请的宠物
+        Pet pet = petMapper.selectByPrimaryKey(apply.getPetId());
+
+        applyExp.setPet(pet);
         applyExp.setApply(apply);
         applyExp.setCustomer(customer);
 
@@ -121,43 +118,26 @@ public class ApplyServiceImpl implements IApplyService {
         //找到申请人
         Customer customer = customerMapper.selectByPrimaryKey(apply.getCustomerId());
 
-        if (apply.getType() == 3) {
+        //找到申请的宠物
+        Pet pet = petMapper.selectByPrimaryKey(apply.getPetId());
 
-            Staff staff = staffMapper.selectByPrimaryKey(apply.getReceiverId());
-            //同意预约
-            consentOrder(customer, staff);
-            staff.setGmtModified(new Date());
-            staffMapper.updateByPrimaryKeySelective(staff);
-
+        if (apply.getType().equals(PetEnum.ADOPT.getType())) {
+            //同意领养
+            consentAdopt(customer, pet);
         } else {
-            //找到申请的宠物
-            Pet pet = petMapper.selectByPrimaryKey(apply.getReceiverId());
-
-            if (apply.getType().equals(1)) {
-                //同意领养
-                consentAdopt(customer, pet);
-            } else {
-                //同意寄养
-                consentSend(pet);
-            }
-            //更新宠物信息
-            pet.setGmtModified(new Date());
-            petMapper.updateByPrimaryKeySelective(pet);
+            //同意寄养
+            consentSend(pet);
         }
+        //更新宠物信息
+        pet.setGmtModified(new Date());
+        petMapper.updateByPrimaryKeySelective(pet);
 
         //同意请求
-        apply.setReply(1);
+        apply.setReply(ReplyEnum.CONSENT.getType());
         //更新请求
         updateApply(apply);
     }
 
-    /**
-     * 同意预约
-     */
-    private void consentOrder(Customer customer, Staff staff) {
-        //更新被申请人信息
-        staff.setCustomerId(customer.getId());
-    }
 
     /**
      * 同意领养
@@ -167,7 +147,7 @@ public class ApplyServiceImpl implements IApplyService {
         pet.setMasterId(customer.getId());
         pet.setMasterNickname(customer.getNickname());
         //宠物状态改为领养
-        pet.setStatus(1);
+        pet.setStatus(PetEnum.ADOPT.getType());
     }
 
     /**
@@ -175,7 +155,7 @@ public class ApplyServiceImpl implements IApplyService {
      */
     private void consentSend(Pet pet) {
         //宠物状态改为寄养
-        pet.setStatus(2);
+        pet.setStatus(PetEnum.SEND.getType());
     }
 
     @Override
@@ -183,7 +163,7 @@ public class ApplyServiceImpl implements IApplyService {
         //拒绝请求
         Apply apply = new Apply();
         apply.setId(applyId);
-        apply.setReply(2);//设为拒绝
+        apply.setReply(ReplyEnum.REJECT.getType());//设为拒绝
         updateApply(apply);
     }
 
@@ -193,7 +173,7 @@ public class ApplyServiceImpl implements IApplyService {
     private void updateApply(Apply apply) {
 
         //设置为已处理
-        apply.setHandle(2);
+        apply.setHandle(HandleEnum.PROCESSED.getType());
         apply.setGmtModified(new Date());
         applyMapper.updateByPrimaryKeySelective(apply);
     }
@@ -202,21 +182,14 @@ public class ApplyServiceImpl implements IApplyService {
     @Override
     public void adopt(Apply apply) {
         //设置类型为领养
-        apply.setType(1);
+        apply.setType(PetEnum.ADOPT.getType());
         addApply(apply);
     }
 
     @Override
     public void send(Apply apply) {
         //设置类型为寄养
-        apply.setType(2);
-        addApply(apply);
-    }
-
-    @Override
-    public void order(Apply apply) {
-        //设置类型为预约
-        apply.setType(3);
+        apply.setType(PetEnum.SEND.getType());
         addApply(apply);
     }
 
@@ -227,7 +200,7 @@ public class ApplyServiceImpl implements IApplyService {
      */
     private void addApply(Apply apply) {
         //设置为未处理
-        apply.setHandle(1);
+        apply.setHandle(HandleEnum.WAITING.getType());
 
         apply.setGmtCreated(new Date());
         apply.setGmtModified(apply.getGmtCreated());

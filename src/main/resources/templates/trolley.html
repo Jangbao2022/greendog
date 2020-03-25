@@ -1,0 +1,87 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragment::headImport"></head>
+<title>Trolley</title>
+<body class="">
+<div class="page">
+    <div class="page-main">
+        <!--顶部右边-->
+        <div th:replace="fragment::topBarRight"></div>
+        <div th:replace="fragment::topBar(${session.user.type})"></div>
+        <div class="my-3 my-md-5">
+            <div class="container">
+                <div class="page-header">
+                    <h1 class="page-title">
+                        购物车
+                    </h1>
+                </div>
+                <div class="row row-cards">
+                    <div class="col-lg-12">
+                        <div class="card">
+                            <table class="table card-table table-vcenter">
+                                <tr>
+                                    <th>药品名</th>
+                                    <th>药品数量</th>
+                                    <th>药品状态</th>
+                                    <th>药品单价</th>
+                                    <th colspan="2">操作</th>
+                                </tr>
+                                <tr th:each="trolleyExp:${myTrolley.trolleyExps}">
+                                    <td>
+                                        <a th:href="'/medicine/info/'+${trolleyExp.medicine.id}"
+                                           th:text="${trolleyExp.medicine.name}"
+                                           href="#">张哥</a></td>
+                                    <td th:text="${trolleyExp.trolley.count}">
+                                    </td>
+                                    <td th:if="${trolleyExp.medicine.status==1}">
+                                        热销中
+                                    </td>
+                                    <td th:if="${trolleyExp.medicine.status==2}">
+                                        已下架
+                                    </td>
+                                    <td>
+                                        <strong>￥[[${trolleyExp.medicine.price}]]</strong>
+                                    </td>
+                                    <td th:if="${trolleyExp.medicine.status==1}" class="w-1" title="购买">
+                                        <a th:href="'/shop/buyTrolley/'+${trolleyExp.trolley.id}" class="icon">
+                                            <i class="fe fe-tablet"></i></a>
+                                    </td>
+                                    <td th:if="${trolleyExp.medicine.status==2}" class="w-1" title="不可购买">
+                                        <a href="#" class="icon">
+                                            <i class="fe fe-x"></i></a>
+                                    </td>
+                                    <td>
+                                        <a th:href="'/shop/buyTrolley/'+${trolleyExp.trolley.id}" title="删除"
+                                           class="icon">
+                                            <i class="fe fe-trash"></i></a>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>合计</td>
+                                    <td></td>
+                                    <td></td>
+                                    <td>
+                                        <strong>￥[[${myTrolley.price}]]</strong>
+                                    </td>
+                                    <td title="购买所有">
+                                        <a href="/shop/buyAll" class="icon">
+                                            <i class="fe  fe-tablet"></i></a>
+                                    </td>
+                                    <td title="删除所有">
+                                        <a href="/trolley/deleteAll" class="icon">
+                                            <i class="fe  fe-trash"></i></a>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <footer th:replace="fragment::footer">
+    </footer>
+</div>
+</body>
+</html>
+

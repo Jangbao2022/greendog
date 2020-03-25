@@ -3,6 +3,8 @@ package com.boob.greendog.service.petService;
 import com.boob.greendog.dto.PageDto;
 import com.boob.greendog.model.Pet;
 
+import java.util.List;
+
 /**
  * iPetService接口
  */
@@ -22,6 +24,13 @@ public interface IPetService {
      */
     public PageDto<Pet> getMyPets(String sPage, String sLimit, Long userId);
 
+    /**
+     * 获取我的所有宠物
+     *
+     * @param userId
+     * @return
+     */
+    public List<Pet> getMyPets(Long userId);
 
     /**
      * 通过id 获取宠物信息

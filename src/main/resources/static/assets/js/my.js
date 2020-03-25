@@ -2,6 +2,6 @@ function openUploadPetPic(id) {
     window.open("/upload/petPicPage/" + id);
 }
 
-function openUploadStaffPic(id) {
-    window.open("/upload/staffPicPage/" + id);
+function openUploadDoctorPic(id) {
+    window.open("/upload/doctorPicPage/" + id);
 }

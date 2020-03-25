@@ -4,10 +4,7 @@ import com.boob.greendog.dto.PageDto;
 import com.boob.greendog.enums.PageUrlEnum;
 import com.boob.greendog.enums.UserTypeEnum;
 import com.boob.greendog.exp.User;
-import com.boob.greendog.mapper.AdministratorMapper;
-import com.boob.greendog.mapper.ApplyMapper;
-import com.boob.greendog.mapper.CustomerMapper;
-import com.boob.greendog.mapper.PetMapper;
+import com.boob.greendog.mapper.*;
 import com.boob.greendog.model.*;
 import com.boob.greendog.service.userService.IUserService;
 import org.apache.ibatis.session.RowBounds;
@@ -35,6 +32,25 @@ public class UserServiceImpl implements IUserService {
 
     @Autowired
     private ApplyMapper applyMapper;
+
+    @Autowired
+    private AppointmentMapper appointmentMapper;
+
+    @Autowired
+    private InstanceMapper instanceMapper;
+
+    @Autowired
+    private BillMapper billMapper;
+
+    @Autowired
+    private DoctorMapper doctorMapper;
+
+    @Autowired
+    private PacketMapper packetMapper;
+
+    @Autowired
+    private TrolleyMapper trolleyMapper;
+
 
     @Override
     public User checkUser(User user) {
@@ -145,6 +161,7 @@ public class UserServiceImpl implements IUserService {
         customer.setGmtCreated(new Date());
         customer.setGmtModified(customer.getGmtCreated());
         return customerMapper.insert(customer) == 1;
+
     }
 
     /**
@@ -219,7 +236,12 @@ public class UserServiceImpl implements IUserService {
     @Override
     public boolean checkDelete(Long customerId) {
 
-        return checkLinkPet(customerId) && checkLinkApply(customerId);
+        return checkLinkPet(customerId) &&
+                checkLinkApply(customerId) &&
+                checkLinkAppointment(customerId) &&
+                checkLinkInstance(customerId) &&
+                checkLinkBill(customerId) &&
+                checkLinkDoctor(customerId);
     }
 
     /**
@@ -250,8 +272,73 @@ public class UserServiceImpl implements IUserService {
         return applyMapper.countByExample(applyExample) == 0;
     }
 
+    /**
+     * 检查和Appointment的关联
+     *
+     * @param customerId
+     * @return
+     */
+    private boolean checkLinkBill(Long customerId) {
+        BillExample example = new BillExample();
+        example.createCriteria()
+                .andCustomerIdEqualTo(customerId);
+        return billMapper.countByExample(example) == 0;
+    }
+
+    /**
+     * 检查和Appointment的关联
+     *
+     * @param customerId
+     * @return
+     */
+    private boolean checkLinkDoctor(Long customerId) {
+        DoctorExample example = new DoctorExample();
+        example.createCriteria()
+                .andCustomerIdEqualTo(customerId);
+        return doctorMapper.countByExample(example) == 0;
+    }
+
+    /**
+     * 检查和Appointment的关联
+     *
+     * @param customerId
+     * @return
+     */
+    private boolean checkLinkAppointment(Long customerId) {
+        AppointmentExample example = new AppointmentExample();
+        example.createCriteria()
+                .andCustomerIdEqualTo(customerId);
+        return appointmentMapper.countByExample(example) == 0;
+    }
+
+    /**
+     * 检查和Instance的关联
+     *
+     * @param customerId
+     * @return
+     */
+    private boolean checkLinkInstance(Long customerId) {
+        InstanceExample example = new InstanceExample();
+        example.createCriteria()
+                .andCustomerIdEqualTo(customerId);
+        return instanceMapper.countByExample(example) == 0;
+    }
+
+
     @Override
     public void deleteCustomerById(Long userId) {
+        //删除购物车
+        TrolleyExample trolleyExample = new TrolleyExample();
+        trolleyExample.createCriteria()
+                .andCustomerIdEqualTo(userId);
+        trolleyMapper.deleteByExample(trolleyExample);
+
+        //删除钱包
+        PacketExample packetExample = new PacketExample();
+        packetExample.createCriteria()
+                .andCustomerIdEqualTo(userId);
+        packetMapper.deleteByExample(packetExample);
+
         customerMapper.deleteByPrimaryKey(userId);
     }
 }

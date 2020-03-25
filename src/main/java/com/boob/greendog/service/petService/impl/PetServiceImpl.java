@@ -1,13 +1,14 @@
 package com.boob.greendog.service.petService.impl;
 
 import com.boob.greendog.dto.PageDto;
+import com.boob.greendog.enums.DefaultPicEnum;
 import com.boob.greendog.enums.PageUrlEnum;
+import com.boob.greendog.enums.PetEnum;
 import com.boob.greendog.mapper.ApplyMapper;
+import com.boob.greendog.mapper.AppointmentMapper;
+import com.boob.greendog.mapper.InstanceMapper;
 import com.boob.greendog.mapper.PetMapper;
-import com.boob.greendog.model.ApplyExample;
-import com.boob.greendog.model.Customer;
-import com.boob.greendog.model.Pet;
-import com.boob.greendog.model.PetExample;
+import com.boob.greendog.model.*;
 import com.boob.greendog.service.petService.IPetService;
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,11 +20,18 @@ import java.util.List;
 @Service
 public class PetServiceImpl implements IPetService {
 
+
     @Autowired
     private PetMapper petMapper;
 
     @Autowired
     private ApplyMapper applyMapper;
+
+    @Autowired
+    private AppointmentMapper appointmentMapper;
+
+    @Autowired
+    private InstanceMapper instanceMapper;
 
     @Override
     public PageDto<Pet> getALLPets(String sPage, String sLimit) {
@@ -65,6 +73,14 @@ public class PetServiceImpl implements IPetService {
     }
 
     @Override
+    public List<Pet> getMyPets(Long userId) {
+        PetExample example = new PetExample();
+        example.createCriteria()
+                .andMasterIdEqualTo(userId);
+        return petMapper.selectByExample(example);
+    }
+
+    @Override
     public Pet getPetById(Long petId) {
         Pet pet = petMapper.selectByPrimaryKey(petId);
         return pet;
@@ -86,6 +102,9 @@ public class PetServiceImpl implements IPetService {
      * @return
      */
     private void addPet(Pet pet) {
+        //设置默认照片
+        pet.setPicture(DefaultPicEnum.PET.getPic());
+
         pet.setGmtCreated(new Date());
         pet.setGmtModified(pet.getGmtCreated());
         petMapper.insert(pet);
@@ -103,12 +122,52 @@ public class PetServiceImpl implements IPetService {
 
     @Override
     public boolean checkDelete(Long petId) {
+
+        return checkLinkApply(petId) &&
+                checkLinkAppointment(petId) &&
+                checkLinkInstance(petId);
+    }
+
+    /**
+     * 检查和Apply的关联
+     *
+     * @param petId
+     * @return
+     */
+    private boolean checkLinkApply(Long petId) {
         ApplyExample example = new ApplyExample();
         example.createCriteria()
-                .andTypeBetween(1, 2) //领养或寄养
-                .andReceiverIdEqualTo(petId);
+                .andTypeBetween(PetEnum.ADOPT.getType(), PetEnum.SEND.getType()) //领养或寄养
+                .andPetIdEqualTo(petId);
         return applyMapper.countByExample(example) == 0;
     }
+
+    /**
+     * 检查和Appointment的关联
+     *
+     * @param petId
+     * @return
+     */
+    private boolean checkLinkAppointment(Long petId) {
+        AppointmentExample example = new AppointmentExample();
+        example.createCriteria()
+                .andPetIdEqualTo(petId);
+        return appointmentMapper.countByExample(example) == 0;
+    }
+
+    /**
+     * 检查和Instance的关联
+     *
+     * @param petId
+     * @return
+     */
+    private boolean checkLinkInstance(Long petId) {
+        InstanceExample example = new InstanceExample();
+        example.createCriteria()
+                .andPetIdEqualTo(petId);
+        return instanceMapper.countByExample(example) == 0;
+    }
+
 
     @Override
     public void deletePetById(Long petId) {

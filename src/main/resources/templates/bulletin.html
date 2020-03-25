@@ -1,13 +1,13 @@
 <!doctype html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head th:replace="fragement::headImport"></head>
+<head th:replace="fragment::headImport"></head>
 <title>Bulletin</title>
 <body class="">
 <div class="page">
     <div class="page-main">
         <!--顶部右边-->
-        <div th:replace="fragement::topBarRight"></div>
-        <div th:replace="fragement::topBar(${session.user.type})"></div>
+        <div th:replace="fragment::topBarRight"></div>
+        <div th:replace="fragment::topBar(${session.user.type})"></div>
         <div class="my-3 my-md-5">
             <div class="container">
                 <div class="card-header">
@@ -30,8 +30,8 @@
                         <div class="form-group">
                             <label class="form-label">内容</label>
                             <textarea class="form-control"
-                                      th:text="${bulletinExp!=null?bulletinExp.bulletin.contant:''}"
-                                      placeholder="内容" name="contant"
+                                      th:text="${bulletinExp!=null?bulletinExp.bulletin.content:''}"
+                                      placeholder="内容" name="content"
                                       th:disabled="${session.user.type==1}" rows="15"></textarea>
                         </div>
                         <div th:if="${session.user.type==2}" class="card-footer text-right">
@@ -42,7 +42,7 @@
             </div>
         </div>
     </div>
-    <footer th:replace="fragement::footer">
+    <footer th:replace="fragment::footer">
     </footer>
 </div>
 </body>

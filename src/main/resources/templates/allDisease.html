@@ -1,0 +1,74 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragment::headImport"></head>
+<title>AllDisease</title>
+<body class="">
+<div class="page">
+    <div class="page-main">
+        <!--顶部右边-->
+        <div th:replace="fragment::topBarRight"></div>
+        <div th:replace="fragment::topBar(${session.user.type})"></div>
+        <div class="my-3 my-md-5">
+            <div class="container">
+                <div class="row row-cards">
+                    <div class="col-lg-12">
+                        <div class="card">
+                            <div class="card-header">
+                                <h3 class="card-title">病症</h3>
+                                <a th:if="${session.user.type==2}" href="/disease/addDiseasePage"
+                                   style="margin-left: 88%"
+                                   class="btn btn-primary">添加</a>
+                            </div>
+                            <div class="table-responsive">
+                                <table class="table card-table  table-vcenter">
+                                    <thead>
+                                    <tr>
+                                        <th>名称</th>
+                                        <th>价格</th>
+                                        <th>创建时间</th>
+                                        <th>修改时间</th>
+                                        <th colspan="2">操作</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr th:each="disease:${pageDto.elements}">
+                                        <td>
+                                            <a th:href="'/disease/info/'+${disease.id}" th:text="${disease.name}"></a>
+                                        </td>
+
+                                        <td>[[${disease.price}]]</td>
+                                        <th th:text="${#dates.format(disease.gmtCreated,'yyyy-MM-dd HH:mm:ss')}">
+                                            创建时间
+                                        </th>
+                                        <th th:text="${#dates.format(disease.gmtModified,'yyyy-MM-dd HH:mm:ss')}">
+                                            修改时间
+                                        </th>
+                                        <td class="w-1" title="修改">
+                                            <a th:href="'/disease/info/'+${disease.id}"
+                                               class="btn btn-secondary btn-sm">
+                                                修改
+                                            </a>
+                                        </td>
+                                        <td class="w-1" title="删除">
+                                            <a th:href="'/disease/delete/'+${disease.id}"
+                                               class="btn btn-secondary btn-sm">
+                                                删除
+                                            </a>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                                <div th:replace="fragment::dangerMessage"></div>
+                                <nav th:replace="fragment::changePage"></nav>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <footer th:replace="fragment::footer">
+    </footer>
+</div>
+</body>
+</html>

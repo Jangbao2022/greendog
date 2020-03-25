@@ -22,7 +22,6 @@
             <property name="enableSubPackages" value="true"/>
             <property name="trimStrings" value="true"/>
         </javaModelGenerator>
-
         <sqlMapGenerator targetPackage="mapper" targetProject="src/main/resources">
             <property name="enableSubPackages" value="true"/>
         </sqlMapGenerator>
@@ -35,10 +34,21 @@
         <table tableName="administrator" domainObjectName="Administrator"></table>
         <table tableName="apply" domainObjectName="Apply"></table>
         <table tableName="bulletin" domainObjectName="Bulletin">
-            <columnOverride column="contant" javaType="java.lang.String" jdbcType="VARCHAR"/>
+            <columnOverride column="content" javaType="java.lang.String" jdbcType="VARCHAR"/>
         </table>
         <table tableName="customer" domainObjectName="Customer"></table>
-        <table tableName="staff" domainObjectName="Staff"></table>
+        <table tableName="trolley" domainObjectName="Trolley"></table>
+        <table tableName="doctor" domainObjectName="Doctor"></table>
+        <table tableName="medicine" domainObjectName="Medicine">
+            <columnOverride column="description" javaType="java.lang.String" jdbcType="VARCHAR"/>
+        </table>
+        <table tableName="disease" domainObjectName="Disease">
+            <columnOverride column="description" javaType="java.lang.String" jdbcType="VARCHAR"/>
+        </table>
+        <table tableName="appointment" domainObjectName="Appointment"></table>
+        <table tableName="instance" domainObjectName="Instance"></table>
+        <table tableName="bill" domainObjectName="Bill"></table>
+        <table tableName="packet" domainObjectName="Packet"></table>
 
     </context>
 </generatorConfiguration>
