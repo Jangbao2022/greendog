@@ -3,7 +3,6 @@ package com.boob.greendog.service.packetService;
 import com.boob.greendog.model.Appointment;
 import com.boob.greendog.model.Medicine;
 import com.boob.greendog.model.Packet;
-import com.sun.xml.internal.bind.v2.runtime.reflect.Lister;
 
 /**
  * IPacketService
