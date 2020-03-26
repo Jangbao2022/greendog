@@ -66,7 +66,7 @@
                                                required="required" hidden="hidden"/>
                                         <div class="col-sm-5 col-md-5">
                                             <div class="form-group">
-                                                <label class="form-label">病症</label>
+                                                <label class="form-label">项目</label>
                                                 <select name="diseaseId" id="disease" onchange="change()"
                                                         class="form-control custom-select">
                                                     <option th:each="disease:${diseases}" th:value="${disease.id}"
@@ -86,7 +86,7 @@
                                         </div>
                                         <div class="col-sm-5 col-md-5">
                                             <div class="form-group">
-                                                <label class="form-label">药品价格</label>
+                                                <label class="form-label">项目价格</label>
                                                 <input type="number" id="diseasePrice" class="form-control" disabled/>
                                             </div>
                                         </div>

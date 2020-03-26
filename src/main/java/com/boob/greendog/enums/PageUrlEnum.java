@@ -19,7 +19,7 @@ public enum PageUrlEnum {
 
     ALL_INSTANCES("/instance/allInstances"),
 
-    ALL_DISEASES("/instance/allDiseases"),
+    ALL_DISEASES("/disease/allDiseases"),
 
     ALL_BILLS("/bill/allBills"),
     MY_BILLS("/bill/myBills"),

@@ -56,7 +56,7 @@ public class ShopController {
         } else {
             //付钱
             packetService.payMoney(packet, medicine);
-
+            model.addAttribute("message","支付成功");
             //账单
             billService.addBill(user.getId(), medicineId, medicine.getPrice(), 1, GoodsEnum.MEDICINE.getType());
         }
@@ -86,7 +86,7 @@ public class ShopController {
         } else {
             //付钱
             packetService.payMoney(packet, money);
-
+            model.addAttribute("message","支付成功");
             //账单
             billService.addBill(user.getId(), medicine.getId(), money, trolley.getCount(), GoodsEnum.MEDICINE.getType());
 
@@ -116,7 +116,7 @@ public class ShopController {
         } else {
             //付钱
             packetService.payMoney(packet, money);
-
+            model.addAttribute("message","支付成功");
             for (TrolleyExp trolleyExp : myTrolley.getTrolleyExps()) {
                 Trolley trolley = trolleyExp.getTrolley();
                 if (trolleyExp.getMedicine().getStatus().equals(MedicineStatusEnum.CLOSE.getType())) {
@@ -128,7 +128,6 @@ public class ShopController {
                 //删除购物车中该商品
                 trolleyService.deleteById(trolley.getId());
             }
-
         }
         return "forward:/trolley/MyTrolley";
     }
